@@ -1,4 +1,5 @@
 void win() {
+  //general
   background(darkViolet);
   fill(white);
   textSize(256);

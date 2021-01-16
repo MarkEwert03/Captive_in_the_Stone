@@ -16,7 +16,9 @@ void setup() {
 
   //images
   imageMode(CENTER);
-
+  
+  //Hero
+  myHero = new Hero();
 
   println("Hello World!");
   println("these are the first steps in my capstone journey");

@@ -1,4 +1,5 @@
 void lose() {
+  //general
   background(darkNavy);
   fill(white);
   textSize(256);

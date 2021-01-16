@@ -1,4 +1,4 @@
-//Mode Framework
+//mode framework
 final int INTRO  = 0;
 final int GAME   = 1;
 final int MENU   = 2;
@@ -7,12 +7,14 @@ final int LOSE   = 4;
 final int WIN    = 5;
 int mode = INTRO;
 
+//Hero
+Hero myHero;
 
-//Keyboard
+//keyboard
 boolean upKey, downKey, leftKey, rightKey, spaceKey;
 
 
-//Colours
+//colour pallete
 final color darkRed         = #990000;
 final color red             = #df2020;
 final color lightRed        = #ff6666;

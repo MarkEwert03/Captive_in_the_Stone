@@ -1,4 +1,5 @@
 void menu() {
+  //general
   background(darkGreen);
   fill(white);
   textSize(256);

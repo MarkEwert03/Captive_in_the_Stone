@@ -1,4 +1,5 @@
 void battle() {
+  //general
   background(darkCyan);
   fill(white);
   textSize(256);

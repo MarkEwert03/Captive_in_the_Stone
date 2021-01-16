@@ -1,4 +1,5 @@
 void intro() {
+  //general
   background(darkRed);
   fill(white);
   textSize(256);

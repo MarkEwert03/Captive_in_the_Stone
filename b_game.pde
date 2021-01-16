@@ -1,8 +1,10 @@
 void game() {
+  //general
   background(darkYellow);
-  fill(white);
-  textSize(256);
-  text("game", width/2, height/2);
+  
+  //Hero
+  myHero.show();
+  myHero.act();
 }//-------------------------------------------------- game --------------------------------------------------
 
 void gameMousePressed() {
