@@ -14,14 +14,17 @@ void setup() {
   textSize(24);
   textAlign(CENTER, CENTER);
 
-  //images
+  //image
   imageMode(CENTER);
-  
+  map = loadImage("Images/Map.png");
+
   //Hero
   myHero = new Hero();
 
-  println("Hello World!");
-  println("these are the first steps in my capstone journey");
+  //map - correct values are: roomX = 4, roomY = 7
+  roomX = 4;
+  roomY = 7;
+  switchRoom();
 }//-------------------------------------------------- setup --------------------------------------------------
 
 void draw() {
@@ -44,17 +47,17 @@ void mousePressed() {
 }//-------------------------------------------------- mousePressed --------------------------------------------------
 
 void keyPressed() {
-  if (key == 'w' || keyCode == UP)    upKey = true;
-  if (key == 's' || keyCode == DOWN)  downKey = true;
   if (key == 'a' || keyCode == LEFT)  leftKey = true;
+  if (key == 'w' || keyCode == UP)    upKey = true;
   if (key == 'd' || keyCode == RIGHT) rightKey = true;
+  if (key == 's' || keyCode == DOWN)  downKey = true;
   if (key == ' ') {
   }
 }//-------------------------------------------------- keyPressed --------------------------------------------------
 
 void keyReleased() {
-  if (key == 'w' || keyCode == UP)    upKey = false;
-  if (key == 's' || keyCode == DOWN)  downKey = false;
   if (key == 'a' || keyCode == LEFT)  leftKey = false;
+  if (key == 'w' || keyCode == UP)    upKey = false;
   if (key == 'd' || keyCode == RIGHT) rightKey = false;
+  if (key == 's' || keyCode == DOWN)  downKey = false;
 }//-------------------------------------------------- keyReleased --------------------------------------------------

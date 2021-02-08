@@ -11,8 +11,13 @@ int mode = INTRO;
 Hero myHero;
 
 //keyboard
-boolean upKey, downKey, leftKey, rightKey, spaceKey;
+boolean leftKey, upKey, rightKey, downKey, spaceKey;
 
+//map
+PImage map; 
+int roomX, roomY; //xy coordinates of map's pixels
+boolean west, north, east, south; //indicates if each direction is avalible to go to for the next room
+float wallRatio = 1.0/8;
 
 //colour pallete
 final color darkRed         = #990000;
@@ -68,3 +73,10 @@ final color lightGrey       = #bfbfbf;
 final color grey            = #808080;
 final color darkGrey        = #404040;
 final color black           = #000000;
+
+//map colors
+color hereColor;
+color northColor;
+color southColor;
+color eastColor;
+color westColor;
