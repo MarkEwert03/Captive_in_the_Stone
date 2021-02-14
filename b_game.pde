@@ -40,11 +40,13 @@ void drawRoom() {
   rectMode(CORNERS);
   fill(grey);
 
-  if (!west)  rect(0, 0, width * wallRatio, height);
+  //use height instead of width so padding is consistant
+  if (!west)  rect(0, 0, height * wallRatio, height);
   
   if (!north) rect(0, 0, width, height * wallRatio);
   
-  if (!east)  rect(width * (1 - wallRatio), 0, width, height);
+  //use height instead of width so padding is consistant
+  if (!east)  rect(width - (height * wallRatio), 0, width, height);
   
   if (!south) rect(0, height * (1 - wallRatio), width, height);
   rectMode(CENTER);

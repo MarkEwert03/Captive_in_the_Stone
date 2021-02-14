@@ -29,14 +29,16 @@ class Hero {
     if (rightKey) x += speed;
 
     //wall collision detection
-    if (!west && x - r <= width * wallRatio) x = width * wallRatio + r;
+    //use height instead of width so padding is consistant
+    if (!west && x - r <= height * wallRatio) x = height * wallRatio + r;
 
     if (!north && y - r <= height * wallRatio) y = height * wallRatio + r;
 
-    if (!east && x + r >= width * (1 - wallRatio)) x = width * (1 - wallRatio) - r;
+    //use height instead of width so padding is consistant
+    if (!east && x + r >= width - (height * wallRatio)) x = width - (height * wallRatio) - r;
 
     if (!south && y + r >= height * (1 - wallRatio)) y = height * (1 - wallRatio) - r;
-    
+
     //checks for paths
     if (west) checkWest();
     if (north) checkNorth();
@@ -45,7 +47,7 @@ class Hero {
   }//-------------------------------------------------- show --------------------------------------------------
 
   void checkWest() {
-    if (west && x - r <= 0){
+    if (west && x - r <= 0) {
       roomX--;
       switchRoom();
       x = width * (1 - wallRatio) - r;
