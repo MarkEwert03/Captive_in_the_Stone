@@ -1,6 +1,6 @@
 void menu() {
   //general
-  background(darkGreen);
+  background(toDark(green));
   fill(white);
   textSize(256);
   text("menu", width/2, height/2);

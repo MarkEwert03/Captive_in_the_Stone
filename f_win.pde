@@ -1,6 +1,6 @@
 void win() {
   //general
-  background(darkViolet);
+  background(toDark(violet));
   fill(white);
   textSize(256);
   text("win", width/2, height/2);

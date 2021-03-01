@@ -7,7 +7,7 @@ void setup() {
 
   //shapes
   noStroke();
-  colorMode(HSB);
+  colorMode(HSB, 360, 100, 100);
   rectMode(CENTER);
 
   //text
@@ -61,3 +61,17 @@ void keyReleased() {
   if (key == 'd' || keyCode == RIGHT) rightKey = false;
   if (key == 's' || keyCode == DOWN)  downKey = false;
 }//-------------------------------------------------- keyReleased --------------------------------------------------
+
+color toLight(color c) {
+  color returnC;
+  if (saturation(c) == 0) returnC = color(0, 0, 75);
+  else returnC = color(hue(c), 50, 100);
+  return returnC;
+}//-------------------------------------------------- toLight --------------------------------------------------
+
+color toDark(color c) {
+  color returnC;
+  if (saturation(c) == 0) returnC = color(0, 0, 25);
+  else returnC = color(hue(c), 100, 50);
+  return returnC;
+}//-------------------------------------------------- toDark --------------------------------------------------
