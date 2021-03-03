@@ -17,14 +17,18 @@ void setup() {
   //image
   imageMode(CENTER);
   map = loadImage("Images/Map.png");
-
-  //Hero
-  myHero = new Hero();
-
+  
   //map - correct values are: roomX = 4, roomY = 7
   roomX = 4;
   roomY = 7;
   switchRoom();
+
+  //Hero
+  myHero = new Hero();
+  
+  //Enemy
+  myEnemy = new Enemy();
+ 
 }//-------------------------------------------------- setup --------------------------------------------------
 
 void draw() {

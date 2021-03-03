@@ -5,10 +5,14 @@ final int MENU   = 2;
 final int BATTLE = 3;
 final int LOSE   = 4;
 final int WIN    = 5;
-int mode = BATTLE;
+int mode = GAME;
 
 //Hero
-Hero myHero;
+Hero myHero, battleHero;
+String heroChoice = "";
+
+//Enemy
+Enemy myEnemy, battleEnemy;
 
 //keyboard
 boolean leftKey, upKey, rightKey, downKey, spaceKey;
@@ -18,6 +22,15 @@ PImage map;
 int roomX, roomY; //xy coordinates of map's pixels
 boolean west, north, east, south; //indicates if each direction is avalible to go to for the next room
 float wallRatio = 1.0/8;
+
+//battle
+final int HERO = 0;
+final int ENEMY = 1;
+int turn = HERO;
+int timer = 0;
+
+//other
+boolean transition = false;
 
 //colour pallete
 final color red             = #df2020;

@@ -1,13 +1,29 @@
+void gameSetup(){
+  myHero.x = width/2;
+  myHero.y = height/2;
+}
+
 void game() {
+
+  //room
   drawRoom();
 
   //Hero
   myHero.show();
   myHero.act();
+
+  //Enemy
+  myEnemy.show();
+  myEnemy.act();
+
+  //battleCollision
+  if (dist(myHero.x, myHero.y, myEnemy.x, myEnemy.y) < myHero.r + myEnemy.r) {
+    battleSetup();
+    mode = BATTLE;
+  }
 }//-------------------------------------------------- game --------------------------------------------------
 
 void gameMousePressed() {
-  mode = MENU;
 }//-------------------------------------------------- gameMousePressed --------------------------------------------------
 
 void switchRoom() {
@@ -42,12 +58,15 @@ void drawRoom() {
 
   //use height instead of width so padding is consistant
   if (!west)  rect(0, 0, height * wallRatio, height);
-  
+
   if (!north) rect(0, 0, width, height * wallRatio);
-  
+
   //use height instead of width so padding is consistant
   if (!east)  rect(width - (height * wallRatio), 0, width, height);
-  
+
   if (!south) rect(0, height * (1 - wallRatio), width, height);
   rectMode(CENTER);
 }//-------------------------------------------------- drawRoom --------------------------------------------------
+
+void battleTransition() {
+}//-------------------------------------------------- battletransition --------------------------------------------------
