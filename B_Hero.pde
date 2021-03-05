@@ -3,6 +3,7 @@ class Hero {
   //instance variables
   float x, y, r, speed;
   int currentHP, maxHP, charge;
+  String actionToDo;
 
   //constructor(s)
   Hero() {
@@ -10,11 +11,13 @@ class Hero {
     x = width/2;
     y = height/2;
     r = (width*height)/40000;
-    speed = sqrt(sq(width) + sq(height))/200;
+    speed = dist(0, 0, width, height)/200;
 
     maxHP = 100;
     currentHP = maxHP;
     charge = 1;
+    
+    actionToDo = "";
   }//-------------------------------------------------- ~default constructor~ --------------------------------------------------
 
   Hero(float x, float y, float r, float speed, int cHP, int mHP) {
@@ -26,6 +29,8 @@ class Hero {
     this.currentHP = cHP;
     this.maxHP = mHP;
     charge = 1;
+    
+    actionToDo = "";
   }//-------------------------------------------------- ~copy constructor~ --------------------------------------------------
 
   Hero(Hero copyHero) {
@@ -37,12 +42,14 @@ class Hero {
     currentHP = copyHero.currentHP;
     maxHP = copyHero.maxHP;
     charge = copyHero.charge;
+    
+    actionToDo = copyHero.actionToDo;
   }//-------------------------------------------------- ~copy constructor~ --------------------------------------------------
 
   void show() {
     //image
     noStroke();
-    if (turn == HERO) {
+    if (turn == HERO || turn == ACTION) {
       if (charge == 1) fill(yellow);
       else fill(toLight(yellow));
     } else if (turn == ENEMY){
@@ -132,19 +139,19 @@ class Hero {
     text ("" + currentHP, x, y - r*1.5);
   }//-------------------------------------------------- healthBar --------------------------------------------------
 
-  void action(String choice) {
+  void action() {
     int rand = 0;
-    if (choice.equals("normal attack")) {
+    if (actionToDo.equals("normal attack")) {
       rand = (int)random(8, 12);
       battleEnemy.damage(rand*charge);
       charge = 1;
-    } else if (choice.equals("risky attack")) {
+    } else if (actionToDo.equals("risky attack")) {
       rand = (int)random(10, 20);
       battleEnemy.damage(rand*charge);
       charge = 1;
-    } else if (choice.equals("charge up")) {
+    } else if (actionToDo.equals("charge up")) {
       charge = 2;
-    } else if (choice.equals("heal")) {
+    } else if (actionToDo.equals("heal")) {
       rand = (int)random(10, 20);
       if (currentHP + rand*charge < maxHP) {
         currentHP += rand*charge;

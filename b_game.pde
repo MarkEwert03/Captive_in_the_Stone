@@ -1,4 +1,4 @@
-void gameSetup(){
+void gameSetup() {
   myHero.x = width/2;
   myHero.y = height/2;
 }

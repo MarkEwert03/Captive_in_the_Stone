@@ -25,7 +25,8 @@ float wallRatio = 1.0/8;
 
 //battle
 final int HERO = 0;
-final int ENEMY = 1;
+final int ACTION = 1;
+final int ENEMY = 2;
 int turn = HERO;
 int timer = 0;
 

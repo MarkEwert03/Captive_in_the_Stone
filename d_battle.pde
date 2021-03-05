@@ -18,21 +18,65 @@ void battle() {
 
   //Hero
   battleHero.show();
+  if (turn == ACTION) {
+    if (battleHero.actionToDo.equals("normal attack") || battleHero.actionToDo.equals("risky attack")) {
+      //enemy moves to attack hero
+      float dist = width/2 - battleHero.r - battleEnemy.r;
+      float speed = dist / 180;
+      if (timer <= 180) {
+        battleHero.x += speed;
+      }   
+
+      //after 3 seconds the hero attacks
+      if (timer == 180) {
+        battleHero.action();
+      }
+
+      //hero retreats back to starting position
+      if (timer >= 180) {
+        battleHero.x -= speed;
+      }
+
+      //after 6 seconds it is Enemy's turn
+      if (timer == 360) {
+        turn = ENEMY;
+      }
+
+      //keep couting until enemy's turn is done and then reset timer
+      if (turn == ACTION) timer++;
+      else timer = 0;
+    } else {
+      battleHero.action();
+      turn = ENEMY;
+    }
+  }
 
   //Enemy
   battleEnemy.show();
-  if (turn == ENEMY){
+  if (turn == ENEMY) {
+    //enemy moves to attack hero
+    float dist = width/2 - battleEnemy.r - battleHero.r;
+    float speed = dist / 180;
+    if (timer <= 180) {
+      battleEnemy.x -= speed;
+    }
+
     //after 3 seconds the enemy attacks
     if (timer == 180) {
       int rand = (int)random(8, 12);
       battleHero.damage(rand);
     }
-    
+
+    //enemy retreats back to starting position
+    if (timer >= 180) {
+      battleEnemy.x += speed;
+    }
+
     //after 6 seconds it is Hero's turn
     if (timer == 360) {
       turn = HERO;
     }
-    
+
     //keep couting until enemy's turn is done and then reset timer
     if (turn == ENEMY) timer++;
     else timer = 0;
@@ -54,8 +98,8 @@ void battle() {
 
 void battleMousePressed() {
   if (turn == HERO) {
-    battleHero.action(heroChoice);
-    turn = ENEMY;
+    turn = ACTION;
+    battleHero.actionToDo = heroChoice;
   }
 }//-------------------------------------------------- battleMousePressed --------------------------------------------------
 
