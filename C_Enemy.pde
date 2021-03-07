@@ -82,7 +82,6 @@ class Enemy {
     
     float dist = abs( (width*3/4) - edge );
     float speed = dist/(sec*60);
-    println(x, edge, dist, speed);
     x -= speed;
     
     return startX;

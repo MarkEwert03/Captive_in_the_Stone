@@ -9,6 +9,12 @@ int mode = GAME;
 
 //Hero
 Hero myHero, battleHero;
+ArrayList<PImage> idle;
+ArrayList<PImage> walkUp;
+ArrayList<PImage> walkDown;
+ArrayList<PImage> walkLeft;
+ArrayList<PImage> walkRight;
+ArrayList<PImage> currentAction;
 String heroChoice = "";
 
 //Enemy
@@ -27,6 +33,7 @@ float wallRatio = 1.0/8;
 final int HERO = 0;
 final int ACTION = 1;
 final int ENEMY = 2;
+final int BATTLE_PACE = 120;
 int turn = HERO;
 int timer = 0;
 

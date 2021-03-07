@@ -16,8 +16,8 @@ void setup() {
 
   //image
   imageMode(CENTER);
-  map = loadImage("Images/Map.png");
-  
+  map = loadImage("Map.png");
+
   //map - correct values are: roomX = 4, roomY = 7
   roomX = 4;
   roomY = 7;
@@ -25,10 +25,24 @@ void setup() {
 
   //Hero
   myHero = new Hero();
-  
+  idle      = new ArrayList<PImage>();
+  walkUp    = new ArrayList<PImage>();
+  walkDown  = new ArrayList<PImage>();
+  walkRight = new ArrayList<PImage>();
+  walkLeft  = new ArrayList<PImage>();
+  idle.add     (loadImage("Animation/Down 1.png"));
+  walkUp.add   (loadImage("Animation/Up 1.png"));
+  walkUp.add   (loadImage("Animation/Up 2.png"));
+  walkDown.add (loadImage("Animation/Down 1.png"));
+  walkDown.add (loadImage("Animation/Down 2.png"));
+  walkRight.add(loadImage("Animation/Right 1.png"));
+  walkRight.add(loadImage("Animation/Right 2.png"));
+  walkLeft.add (loadImage("Animation/Left 1.png"));
+  walkLeft.add (loadImage("Animation/Left 2.png"));
+  currentAction = idle;
+
   //Enemy
   myEnemy = new Enemy();
- 
 }//-------------------------------------------------- setup --------------------------------------------------
 
 void draw() {

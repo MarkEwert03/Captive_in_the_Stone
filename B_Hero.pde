@@ -5,6 +5,10 @@ class Hero {
   int currentHP, maxHP, charge;
   String actionToDo;
 
+  int count = 0;
+  int spriteNumber; //Current sprite shown
+  final int threshold = 5; //How long until you change spriteNumber
+
   //constructor(s)
   Hero() {
     //basic
@@ -16,7 +20,7 @@ class Hero {
     maxHP = 100;
     currentHP = maxHP;
     charge = 1;
-    
+
     actionToDo = "";
   }//-------------------------------------------------- ~default constructor~ --------------------------------------------------
 
@@ -29,8 +33,11 @@ class Hero {
     this.currentHP = cHP;
     this.maxHP = mHP;
     charge = 1;
-    
+
     actionToDo = "";
+
+    //Animation
+    spriteNumber = 0;
   }//-------------------------------------------------- ~copy constructor~ --------------------------------------------------
 
   Hero(Hero copyHero) {
@@ -42,20 +49,41 @@ class Hero {
     currentHP = copyHero.currentHP;
     maxHP = copyHero.maxHP;
     charge = copyHero.charge;
-    
+
     actionToDo = copyHero.actionToDo;
   }//-------------------------------------------------- ~copy constructor~ --------------------------------------------------
 
   void show() {
-    //image
-    noStroke();
-    if (turn == HERO || turn == ACTION) {
-      if (charge == 1) fill(yellow);
-      else fill(toLight(yellow));
-    } else if (turn == ENEMY){
-      fill (toDark(yellow));
+    //animating sprite
+    //continue conting until count equals threshold (5) and then go to next sprite
+    count++; 
+    if (count == threshold) {
+      count = 0;
+      spriteNumber++;
     }
-    ellipse(x, y, 2*r, 2*r);
+
+    //if we get to the last sprite, go back to the beginning
+    if (currentAction.size() <= spriteNumber) {
+      spriteNumber = 0;
+    }
+
+    //battle animation
+    if (mode == BATTLE) {
+      
+      
+      
+      if (turn == HERO || turn == ACTION) {
+        if (charge == 1) tint(white);
+        if (charge == 2) tint(toLight(green));
+      } else if (turn == ENEMY) {
+        tint(toDark(grey));
+      }
+      
+    }
+
+    //image that is actually showing
+    println(count, threshold);
+    image(currentAction.get(spriteNumber), x, y, 2*r, 2*r);
 
     //HP bar
     if (mode == BATTLE || mode == MENU) healthBar();
@@ -63,10 +91,30 @@ class Hero {
 
   void act() {
     //movement
-    if (upKey)    y -= speed;
-    if (downKey)  y += speed;
-    if (leftKey)  x -= speed;
-    if (rightKey) x += speed;
+    if (leftKey || upKey || rightKey || downKey) idle.clear();
+    if (leftKey) {
+      x -= speed;
+      currentAction = walkLeft;
+      idle.add(walkLeft.get(spriteNumber));
+    }
+    if (upKey) {
+      y -= speed;
+      currentAction = walkUp;
+      idle.add(walkUp.get(spriteNumber));
+    }
+    if (rightKey) {
+      x += speed;
+      currentAction = walkRight;
+      idle.add(walkRight.get(spriteNumber));
+    }
+    if (downKey) {
+      y += speed;
+      currentAction = walkDown;
+      idle.add(walkDown.get(spriteNumber));
+    }
+    if (!leftKey && !upKey &&! rightKey && !downKey) {
+      currentAction = idle;
+    }
 
     //wall collision detection
     //use height instead of width so padding is consistant

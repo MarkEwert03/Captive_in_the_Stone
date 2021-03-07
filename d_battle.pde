@@ -2,9 +2,13 @@ void battleSetup() {
   //Hero
   battleHero = new Hero(width/4, height/4, height/8, 0, myHero.currentHP, myHero.maxHP);
 
-
-  //Battle
+  //Enemy
   battleEnemy = new Enemy(width*3/4, height/4, height/8, 0, 100, 100);
+  
+  //hero animation
+  idle.clear();
+  idle.add(walkRight.get(0));
+  currentAction = idle;
 }
 
 void battle() {
@@ -22,23 +26,28 @@ void battle() {
     if (battleHero.actionToDo.equals("normal attack") || battleHero.actionToDo.equals("risky attack")) {
       //enemy moves to attack hero
       float dist = width/2 - battleHero.r - battleEnemy.r;
-      float speed = dist / 180;
-      if (timer <= 180) {
+      float speed = dist / (BATTLE_PACE/2);
+      
+      //hero starts to move towards enemy
+      if (timer <= BATTLE_PACE/2) {
         battleHero.x += speed;
+        currentAction = walkRight;
       }   
 
-      //after 3 seconds the hero attacks
-      if (timer == 180) {
+      //after half time seconds the hero attacks
+      if (timer == BATTLE_PACE/2) {
         battleHero.action();
       }
 
       //hero retreats back to starting position
-      if (timer >= 180) {
+      if (timer >= BATTLE_PACE/2) {
         battleHero.x -= speed;
+        currentAction = walkRight;
       }
 
-      //after 6 seconds it is Enemy's turn
-      if (timer == 360) {
+      //after full time it is Enemy's turn
+      if (timer == BATTLE_PACE) {
+        currentAction = idle;
         turn = ENEMY;
       }
 
@@ -47,6 +56,7 @@ void battle() {
       else timer = 0;
     } else {
       battleHero.action();
+      currentAction = idle;
       turn = ENEMY;
     }
   }
@@ -56,24 +66,24 @@ void battle() {
   if (turn == ENEMY) {
     //enemy moves to attack hero
     float dist = width/2 - battleEnemy.r - battleHero.r;
-    float speed = dist / 180;
-    if (timer <= 180) {
+    float speed = dist / (BATTLE_PACE/2);
+    if (timer <= BATTLE_PACE/2) {
       battleEnemy.x -= speed;
     }
 
-    //after 3 seconds the enemy attacks
-    if (timer == 180) {
+    //after half time the enemy attacks
+    if (timer == BATTLE_PACE/2) {
       int rand = (int)random(8, 12);
       battleHero.damage(rand);
     }
 
     //enemy retreats back to starting position
-    if (timer >= 180) {
+    if (timer >= BATTLE_PACE/2) {
       battleEnemy.x += speed;
     }
 
-    //after 6 seconds it is Hero's turn
-    if (timer == 360) {
+    //after full time it is Hero's turn
+    if (timer == BATTLE_PACE) {
       turn = HERO;
     }
 
