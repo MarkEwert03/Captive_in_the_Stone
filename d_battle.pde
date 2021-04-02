@@ -3,7 +3,7 @@ void battleSetup() {
   battleHero = new Hero(width/4, height/4, height/8, 0, myHero.currentHP, myHero.maxHP);
 
   //Enemy
-  battleEnemy = new Enemy(width*3/4, height/4, height/8, 0, 100, 100);
+  battleEnemy = new Enemy(width*3/4, height/4, height/8, 100, 100, red);
   
   //hero animation
   idle.clear();

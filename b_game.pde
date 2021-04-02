@@ -1,6 +1,14 @@
 void gameSetup() {
   myHero.x = width/2;
   myHero.y = height/2;
+  
+  enemyList.clear();
+  if (west)  enemyList.add(new Enemy());
+  if (north) enemyList.add(new Enemy(width/2, height/4));
+  if (east)  enemyList.add(new Enemy(height*3/4, height/2));
+  if (south) enemyList.add(new Enemy(width/2, height*3/4));
+  enemyList.add(new Enemy(100, 100));
+  print(enemyList.size());
 }
 
 void game() {
@@ -13,13 +21,16 @@ void game() {
   myHero.act();
 
   //Enemy
-  myEnemy.show();
-  myEnemy.act();
+  for (Enemy e : enemyList) {
+    e.show();
+  }
 
   //battleCollision
-  if (dist(myHero.x, myHero.y, myEnemy.x, myEnemy.y) < myHero.r + myEnemy.r) {
-    battleSetup();
-    mode = BATTLE;
+  for (Enemy e : enemyList) {
+    if (dist(myHero.x, myHero.y, e.x, e.y) < myHero.r + e.r) {
+      battleSetup();
+      mode = BATTLE;
+    }
   }
 }//-------------------------------------------------- game --------------------------------------------------
 
@@ -45,7 +56,7 @@ void switchRoom() {
   } else {
     //bug checking
     println("In a nonexistent room so hereColor is" + hereColor);
-    println("roomX = " + roomX + "and roomY = " + roomY);
+    println("roomX = " + roomX + " and roomY = " + roomY);
   }
 }//-------------------------------------------------- switchRoom --------------------------------------------------
 

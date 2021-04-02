@@ -1,4 +1,4 @@
-//Mark Ewert
+ //Mark Ewert
 //Jan 10, 2020
 
 void setup() {
@@ -18,9 +18,8 @@ void setup() {
   imageMode(CENTER);
   map = loadImage("Map.png");
 
-  //map - correct values are: roomX = 4, roomY = 7
-  roomX = 4;
-  roomY = 7;
+  roomX = 1;
+  roomY = 1;
   switchRoom();
 
   //Hero
@@ -42,7 +41,7 @@ void setup() {
   currentAction = idle;
 
   //Enemy
-  myEnemy = new Enemy();
+  enemyList = new ArrayList<Enemy>();
 }//-------------------------------------------------- setup --------------------------------------------------
 
 void draw() {

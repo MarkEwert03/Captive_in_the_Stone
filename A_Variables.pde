@@ -5,7 +5,7 @@ final int MENU   = 2;
 final int BATTLE = 3;
 final int LOSE   = 4;
 final int WIN    = 5;
-int mode = GAME;
+int mode = INTRO;
 
 //Hero
 Hero myHero, battleHero;
@@ -18,7 +18,8 @@ ArrayList<PImage> currentAction;
 String heroChoice = "";
 
 //Enemy
-Enemy myEnemy, battleEnemy;
+ArrayList<Enemy> enemyList;
+Enemy battleEnemy;
 
 //keyboard
 boolean leftKey, upKey, rightKey, downKey, spaceKey;
