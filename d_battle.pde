@@ -1,14 +1,14 @@
 void battleSetup() {
   //Hero
-  battleHero = new Hero(width/4, height/4, height/8, 0, myHero.currentHP, myHero.maxHP);
+  battleHero = new Hero(width/4, height/4, height/8, myHero.maxHP, myHero.currentHP, blue);
 
   //Enemy
   battleEnemy = new Enemy(width*3/4, height/4, height/8, 100, 100, red);
   
   //hero animation
-  idle.clear();
-  idle.add(walkRight.get(0));
-  currentAction = idle;
+  myHero.idle.clear();
+  myHero.idle.add(myHero.walkRight.get(0));
+  myHero.currentAction = myHero.idle;
 }
 
 void battle() {
@@ -31,7 +31,7 @@ void battle() {
       //hero starts to move towards enemy
       if (timer <= BATTLE_PACE/2) {
         battleHero.x += speed;
-        currentAction = walkRight;
+        myHero.currentAction = myHero.walkRight;
       }   
 
       //after half time seconds the hero attacks
@@ -42,12 +42,12 @@ void battle() {
       //hero retreats back to starting position
       if (timer >= BATTLE_PACE/2) {
         battleHero.x -= speed;
-        currentAction = walkRight;
+        myHero.currentAction = myHero.walkRight;
       }
 
       //after full time it is Enemy's turn
       if (timer == BATTLE_PACE) {
-        currentAction = idle;
+        myHero.currentAction = myHero.idle;
         turn = ENEMY;
       }
 
@@ -56,7 +56,7 @@ void battle() {
       else timer = 0;
     } else {
       battleHero.action();
-      currentAction = idle;
+      myHero.currentAction = myHero.idle;
       turn = ENEMY;
     }
   }

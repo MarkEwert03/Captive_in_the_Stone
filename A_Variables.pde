@@ -9,12 +9,6 @@ int mode = INTRO;
 
 //Hero
 Hero myHero, battleHero;
-ArrayList<PImage> idle;
-ArrayList<PImage> walkUp;
-ArrayList<PImage> walkDown;
-ArrayList<PImage> walkLeft;
-ArrayList<PImage> walkRight;
-ArrayList<PImage> currentAction;
 String heroChoice = "";
 
 //Enemy

@@ -5,39 +5,88 @@ class Hero extends Person {
   String actionToDo;
 
   Hero() {
-    //takes care of x, y, r, currentHP, and maxHP
+    //super
     super();
     c = blue;
 
+    //Hero
     actionToDo = "";
+
+    //Animation
+    idle.add     (loadImage("Animation/Down 1.png"));
+    walkUp.add   (loadImage("Animation/Up 1.png"));
+    walkUp.add   (loadImage("Animation/Up 2.png"));
+    walkDown.add (loadImage("Animation/Down 1.png"));
+    walkDown.add (loadImage("Animation/Down 2.png"));
+    walkRight.add(loadImage("Animation/Right 1.png"));
+    walkRight.add(loadImage("Animation/Right 2.png"));
+    walkLeft.add (loadImage("Animation/Left 1.png"));
+    walkLeft.add (loadImage("Animation/Left 2.png"));
+    currentAction = idle;
   }//-------------------------------------------------- ~default constructor~ --------------------------------------------------
 
   Hero(float x, float y) {
+    //super
     super(x, y);
     c = blue;
 
+    //Hero
     charge = 1;
     actionToDo = "";
 
     //Animation
-    spriteNumber = 0;
+    idle.add     (loadImage("Animation/Down 1.png"));
+    walkUp.add   (loadImage("Animation/Up 1.png"));
+    walkUp.add   (loadImage("Animation/Up 2.png"));
+    walkDown.add (loadImage("Animation/Down 1.png"));
+    walkDown.add (loadImage("Animation/Down 2.png"));
+    walkRight.add(loadImage("Animation/Right 1.png"));
+    walkRight.add(loadImage("Animation/Right 2.png"));
+    walkLeft.add (loadImage("Animation/Left 1.png"));
+    walkLeft.add (loadImage("Animation/Left 2.png"));
+    currentAction = idle;
   }//-------------------------------------------------- ~manual constructor~ --------------------------------------------------
 
   Hero(float x, float y, float r, int mHP, int cHP, int c) {
+    //super
     super(x, y, r, cHP, mHP, c);
 
+    //Hero
     charge = 1;
     actionToDo = "";
 
     //Animation
-    spriteNumber = 0;
+    idle.add     (loadImage("Animation/Down 1.png"));
+    walkUp.add   (loadImage("Animation/Up 1.png"));
+    walkUp.add   (loadImage("Animation/Up 2.png"));
+    walkDown.add (loadImage("Animation/Down 1.png"));
+    walkDown.add (loadImage("Animation/Down 2.png"));
+    walkRight.add(loadImage("Animation/Right 1.png"));
+    walkRight.add(loadImage("Animation/Right 2.png"));
+    walkLeft.add (loadImage("Animation/Left 1.png"));
+    walkLeft.add (loadImage("Animation/Left 2.png"));
+    currentAction = idle;
   }//-------------------------------------------------- ~manual constructor~ --------------------------------------------------
 
   Hero(Hero copyHero) {
+    //super
     super(copyHero);
 
+    //Hero
     charge = copyHero.charge;
     actionToDo = copyHero.actionToDo;
+
+    //Animation
+    idle.add     (loadImage("Animation/Down 1.png"));
+    walkUp.add   (loadImage("Animation/Up 1.png"));
+    walkUp.add   (loadImage("Animation/Up 2.png"));
+    walkDown.add (loadImage("Animation/Down 1.png"));
+    walkDown.add (loadImage("Animation/Down 2.png"));
+    walkRight.add(loadImage("Animation/Right 1.png"));
+    walkRight.add(loadImage("Animation/Right 2.png"));
+    walkLeft.add (loadImage("Animation/Left 1.png"));
+    walkLeft.add (loadImage("Animation/Left 2.png"));
+    currentAction = idle;
   }//-------------------------------------------------- ~copy constructor~ --------------------------------------------------
 
   void show() {

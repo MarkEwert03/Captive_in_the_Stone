@@ -4,6 +4,14 @@ class Person {
   int maxHP, currentHP;
   color c;
 
+  //images
+  ArrayList<PImage> idle          = new ArrayList<PImage>();
+  ArrayList<PImage> walkUp        = new ArrayList<PImage>();
+  ArrayList<PImage> walkDown      = new ArrayList<PImage>();
+  ArrayList<PImage> walkLeft      = new ArrayList<PImage>();
+  ArrayList<PImage> walkRight     = new ArrayList<PImage>();
+  ArrayList<PImage> currentAction = new ArrayList<PImage>();
+  
   //animation
   int count = 0;
   int spriteNumber = 0; //Current sprite shown
@@ -55,8 +63,8 @@ class Person {
     //HP bar
     if (mode == BATTLE || mode == MENU) healthBar(c);
   }//-------------------------------------------------- show --------------------------------------------------
-  
-  void animate(){
+
+  void animate() {
     //animating sprite
     //continue conting until count equals threshold (5) and then go to next sprite
     count++; 
@@ -69,7 +77,7 @@ class Person {
     if (currentAction.size() <= spriteNumber) {
       spriteNumber = 0;
     }
-  }
+  }//-------------------------------------------------- animate --------------------------------------------------
 
   private void healthBar(color c) {
     float HP_X = map(currentHP, 0, maxHP, 0, 2*r);
@@ -95,4 +103,4 @@ class Person {
   void damage(int drop) { 
     currentHP -= drop;
   }//-------------------------------------------------- healthBar --------------------------------------------------
-}
+}//-------------------------------------------------- ~Person~ --------------------------------------------------

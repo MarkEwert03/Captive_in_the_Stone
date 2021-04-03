@@ -1,4 +1,4 @@
- //Mark Ewert
+//Mark Ewert
 //Jan 10, 2020
 
 void setup() {
@@ -14,34 +14,19 @@ void setup() {
   textSize(24);
   textAlign(CENTER, CENTER);
 
-  //image
-  imageMode(CENTER);
-  map = loadImage("Map.png");
-
-  roomX = 1;
-  roomY = 1;
-  switchRoom();
-
   //Hero
   myHero = new Hero();
-  idle      = new ArrayList<PImage>();
-  walkUp    = new ArrayList<PImage>();
-  walkDown  = new ArrayList<PImage>();
-  walkRight = new ArrayList<PImage>();
-  walkLeft  = new ArrayList<PImage>();
-  idle.add     (loadImage("Animation/Down 1.png"));
-  walkUp.add   (loadImage("Animation/Up 1.png"));
-  walkUp.add   (loadImage("Animation/Up 2.png"));
-  walkDown.add (loadImage("Animation/Down 1.png"));
-  walkDown.add (loadImage("Animation/Down 2.png"));
-  walkRight.add(loadImage("Animation/Right 1.png"));
-  walkRight.add(loadImage("Animation/Right 2.png"));
-  walkLeft.add (loadImage("Animation/Left 1.png"));
-  walkLeft.add (loadImage("Animation/Left 2.png"));
-  currentAction = idle;
 
   //Enemy
   enemyList = new ArrayList<Enemy>();
+
+  //image
+  imageMode(CENTER);
+  map = loadImage("Map.png");
+  roomX = 1;
+  roomY = 1;
+
+  switchRoom();
 }//-------------------------------------------------- setup --------------------------------------------------
 
 void draw() {

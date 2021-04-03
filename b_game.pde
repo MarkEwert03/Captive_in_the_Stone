@@ -1,14 +1,6 @@
 void gameSetup() {
-  myHero.x = width/2;
-  myHero.y = height/2;
-  
-  enemyList.clear();
-  if (west)  enemyList.add(new Enemy());
-  if (north) enemyList.add(new Enemy(width/2, height/4));
-  if (east)  enemyList.add(new Enemy(height*3/4, height/2));
-  if (south) enemyList.add(new Enemy(width/2, height*3/4));
-  enemyList.add(new Enemy(100, 100));
-  print(enemyList.size());
+  myHero.x = width/4;
+  myHero.y = height/4;
 }
 
 void game() {
@@ -58,6 +50,13 @@ void switchRoom() {
     println("In a nonexistent room so hereColor is" + hereColor);
     println("roomX = " + roomX + " and roomY = " + roomY);
   }
+  
+  //adding enemies
+  enemyList.clear();
+  if (west)  enemyList.add(new Enemy(height * wallRatio, height/2));
+  if (north) enemyList.add(new Enemy(width/2, height * wallRatio));
+  if (east)  enemyList.add(new Enemy(width * (1 - wallRatio), height/2));
+  if (south) enemyList.add(new Enemy(width/2, height * (1 - wallRatio)));
 }//-------------------------------------------------- switchRoom --------------------------------------------------
 
 void drawRoom() {
