@@ -6,16 +6,21 @@ class Person {
 
   //images
   ArrayList<PImage> idle          = new ArrayList<PImage>();
-  ArrayList<PImage> walkUp        = new ArrayList<PImage>();
-  ArrayList<PImage> walkDown      = new ArrayList<PImage>();
   ArrayList<PImage> walkLeft      = new ArrayList<PImage>();
+  ArrayList<PImage> walkUp        = new ArrayList<PImage>();
   ArrayList<PImage> walkRight     = new ArrayList<PImage>();
+  ArrayList<PImage> walkDown      = new ArrayList<PImage>();
+  ArrayList<PImage> attackLeft    = new ArrayList<PImage>();
+  ArrayList<PImage> attackUp      = new ArrayList<PImage>();
+  ArrayList<PImage> attackRight   = new ArrayList<PImage>();
+  ArrayList<PImage> attackDown    = new ArrayList<PImage>();
+  ArrayList<PImage> dead          = new ArrayList<PImage>();
   ArrayList<PImage> currentAction = new ArrayList<PImage>();
-  
+
   //animation
   int count = 0;
   int spriteNumber = 0; //Current sprite shown
-  final int threshold = 5; //How long until you change spriteNumber
+  final int threshold = 10; //How many frames until you change spriteNumber
 
   Person() {
     //basic
@@ -45,7 +50,6 @@ class Person {
     this.currentHP = cHP;
     this.c = c;
   }//-------------------------------------------------- ~manual constructor~ --------------------------------------------------
-
 
   Person(Person copyPerson) {
     x = copyPerson.x;
@@ -103,4 +107,47 @@ class Person {
   void damage(int drop) { 
     currentHP -= drop;
   }//-------------------------------------------------- healthBar --------------------------------------------------
+
+  void bulkImageImport(String name, String action, int total, boolean directional) {
+    //determining which list to add to
+    ArrayList<PImage> tempLeft  = new ArrayList<PImage>();
+    ArrayList<PImage> tempUp    = new ArrayList<PImage>();
+    ArrayList<PImage> tempRight = new ArrayList<PImage>();
+    ArrayList<PImage> tempDown  = new ArrayList<PImage>();
+    if (action.equals("Walk")) {
+      tempLeft = walkLeft;
+      tempUp = walkUp;
+      tempRight = walkRight;
+      tempDown = walkDown;
+    } else if (action.equals("Attack")) {
+      tempLeft = attackLeft;
+      tempUp = attackUp;
+      tempRight = attackRight;
+      tempDown = attackDown;
+    }
+
+
+    String direction = "";
+    for (int dir = 0; dir < 4; dir++) {
+      //outer directional loop
+      if (dir == 0) direction = "Left ";
+      else if (dir == 1) direction = "Up ";
+      else if (dir == 2) direction = "Right ";
+      else if (dir == 3) direction = "Down ";
+
+      //inner numerical loop
+      for (int num = 1; num <= total; num++) {
+        if (directional) {
+          PImage image = loadImage("Animation/" + name + "/" + direction + action + " (" + num + ").png");
+          if (dir == 0) tempLeft.add(image);
+          else if (dir == 1) tempUp.add(image);
+          else if (dir == 2) tempRight.add(image);
+          else if (dir == 3) tempDown.add(image);
+        } else {
+          PImage image = loadImage("Animation/" + name + "/" + action + " (" + num + ").png");
+          dead.add(image);
+        }
+      }
+    }
+  }//-------------------------------------------------- bulkImageImport --------------------------------------------------
 }//-------------------------------------------------- ~Person~ --------------------------------------------------

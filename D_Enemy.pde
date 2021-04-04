@@ -5,8 +5,7 @@ class Enemy extends Person {
     super();
     c = red;
 
-    //Animation
-    idle.add     (loadImage("Animation/Down 1.png"));
+    //animation
     walkUp.add   (loadImage("Animation/Up 1.png"));
     walkUp.add   (loadImage("Animation/Up 2.png"));
     walkDown.add (loadImage("Animation/Down 1.png"));
@@ -15,6 +14,7 @@ class Enemy extends Person {
     walkRight.add(loadImage("Animation/Right 2.png"));
     walkLeft.add (loadImage("Animation/Left 1.png"));
     walkLeft.add (loadImage("Animation/Left 2.png"));
+    idle.add(walkDown.get(0));
     currentAction = idle;
   }//-------------------------------------------------- ~default constructor~ --------------------------------------------------
 

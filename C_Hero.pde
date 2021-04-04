@@ -1,6 +1,6 @@
 class Hero extends Person {
   //Hero variables
-  final float speed = dist(0, 0, width, height)/200;
+  final float speed = dist(0, 0, width, height)/400;
   int charge;
   String actionToDo;
 
@@ -12,16 +12,11 @@ class Hero extends Person {
     //Hero
     actionToDo = "";
 
-    //Animation
-    idle.add     (loadImage("Animation/Down 1.png"));
-    walkUp.add   (loadImage("Animation/Up 1.png"));
-    walkUp.add   (loadImage("Animation/Up 2.png"));
-    walkDown.add (loadImage("Animation/Down 1.png"));
-    walkDown.add (loadImage("Animation/Down 2.png"));
-    walkRight.add(loadImage("Animation/Right 1.png"));
-    walkRight.add(loadImage("Animation/Right 2.png"));
-    walkLeft.add (loadImage("Animation/Left 1.png"));
-    walkLeft.add (loadImage("Animation/Left 2.png"));
+    //animation
+    bulkImageImport("Hero", "Walk", 9, true);
+    bulkImageImport("Hero", "Attack", 6, true);
+    bulkImageImport("Hero", "Dead", 6, false);
+    idle.add(walkDown.get(0));
     currentAction = idle;
   }//-------------------------------------------------- ~default constructor~ --------------------------------------------------
 
@@ -206,5 +201,5 @@ class Hero extends Person {
   void damage(int drop) { 
     super.damage(drop);
     if (currentHP <= 0) mode = LOSE;
-  }//-------------------------------------------------- healthBar --------------------------------------------------
+  }//-------------------------------------------------- damage --------------------------------------------------
 }//-------------------------------------------------- Hero --------------------------------------------------

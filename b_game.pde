@@ -50,7 +50,7 @@ void switchRoom() {
     println("In a nonexistent room so hereColor is" + hereColor);
     println("roomX = " + roomX + " and roomY = " + roomY);
   }
-  
+
   //adding enemies
   enemyList.clear();
   if (west)  enemyList.add(new Enemy(height * wallRatio, height/2));
