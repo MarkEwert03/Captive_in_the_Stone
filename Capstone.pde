@@ -15,7 +15,7 @@ void setup() {
   textAlign(CENTER, CENTER);
 
   //Hero
-  myHero = new Hero();
+  myHero = new Hero(width/2, height/2);
 
   //Enemy
   enemyList = new ArrayList<Enemy>();

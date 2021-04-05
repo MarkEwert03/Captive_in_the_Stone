@@ -1,6 +1,8 @@
 void battleSetup() {
   //Hero
-  battleHero = new Hero(width/4, height/4, height/8, myHero.maxHP, myHero.currentHP, blue);
+  myHero.x = width/4;
+  myHero.y = height/4;
+  myHero.r = height/8;
 
   //Enemy
   battleEnemy = new Enemy(width*3/4, height/4, height/8, 100, 100, red);
@@ -21,32 +23,35 @@ void battle() {
   line(0, height*3/4, width, height*3/4);
 
   //Hero
-  battleHero.show();
+  myHero.show();
   if (turn == ACTION) {
-    if (battleHero.actionToDo.equals("normal attack") || battleHero.actionToDo.equals("risky attack")) {
+    if (myHero.actionToDo.equals("poised strike") || myHero.actionToDo.equals("reckless slash")) {
       //enemy moves to attack hero
-      float dist = width/2 - battleHero.r - battleEnemy.r;
+      float dist = width/2 - myHero.r - battleEnemy.r;
       float speed = dist / (BATTLE_PACE/2);
       
       //hero starts to move towards enemy
-      if (timer <= BATTLE_PACE/2) {
-        battleHero.x += speed;
+      if (timer < BATTLE_PACE/2) {
+        myHero.x += speed;
         myHero.currentAction = myHero.walkRight;
       }   
 
       //after half time seconds the hero attacks
       if (timer == BATTLE_PACE/2) {
-        battleHero.action();
+        myHero.currentAction = myHero.attackRight;
+        myHero.animate();
+        myHero.action();
+        
       }
 
       //hero retreats back to starting position
-      if (timer >= BATTLE_PACE/2) {
-        battleHero.x -= speed;
+      if (timer > BATTLE_PACE) {
+        myHero.x -= speed;
         myHero.currentAction = myHero.walkRight;
       }
 
       //after full time it is Enemy's turn
-      if (timer == BATTLE_PACE) {
+      if (timer == BATTLE_PACE*1.5) {
         myHero.currentAction = myHero.idle;
         turn = ENEMY;
       }
@@ -55,7 +60,7 @@ void battle() {
       if (turn == ACTION) timer++;
       else timer = 0;
     } else {
-      battleHero.action();
+      myHero.action();
       myHero.currentAction = myHero.idle;
       turn = ENEMY;
     }
@@ -65,7 +70,7 @@ void battle() {
   battleEnemy.show();
   if (turn == ENEMY) {
     //enemy moves to attack hero
-    float dist = width/2 - battleEnemy.r - battleHero.r;
+    float dist = width/2 - battleEnemy.r - myHero.r;
     float speed = dist / (BATTLE_PACE/2);
     if (timer <= BATTLE_PACE/2) {
       battleEnemy.x -= speed;
@@ -74,7 +79,7 @@ void battle() {
     //after half time the enemy attacks
     if (timer == BATTLE_PACE/2) {
       int rand = (int)random(8, 12);
-      battleHero.damage(rand);
+      myHero.damage(rand);
     }
 
     //enemy retreats back to starting position
@@ -84,6 +89,7 @@ void battle() {
 
     //after full time it is Hero's turn
     if (timer == BATTLE_PACE) {
+      myHero.countering = false;
       turn = HERO;
     }
 
@@ -94,22 +100,22 @@ void battle() {
 
   //Buttons
   //top left
-  battleButton(width/4, height*5/8, "normal attack");
+  battleButton(width/4, height*5/8, "poised strike");
 
   //top right
-  battleButton(width*3/4, height*5/8, "risky attack");
+  battleButton(width*3/4, height*5/8, "reckless slash");
 
   //bottom left
-  battleButton(width/4, height*7/8, "charge up");
+  battleButton(width/4, height*7/8, "invigorate");
 
   //bottom right
-  battleButton(width*3/4, height*7/8, "heal");
+  battleButton(width*3/4, height*7/8, "counter");
 }//-------------------------------------------------- battle --------------------------------------------------
 
 void battleMousePressed() {
   if (turn == HERO) {
     turn = ACTION;
-    battleHero.actionToDo = heroChoice;
+    myHero.actionToDo = heroChoice;
   }
 }//-------------------------------------------------- battleMousePressed --------------------------------------------------
 

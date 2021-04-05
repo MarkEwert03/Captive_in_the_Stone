@@ -8,7 +8,7 @@ final int WIN    = 5;
 int mode = INTRO;
 
 //Hero
-Hero myHero, battleHero;
+Hero myHero;
 String heroChoice = "";
 
 //Enemy

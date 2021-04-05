@@ -1,6 +1,7 @@
 void gameSetup() {
   myHero.x = width/4;
   myHero.y = height/4;
+  myHero.r = (width*height)/40000;
 }
 
 void game() {
