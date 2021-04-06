@@ -6,11 +6,16 @@ void battleSetup() {
 
   //Enemy
   battleEnemy = new Enemy(width*3/4, height/4, height/8, 100, 100, red);
-  
+
   //hero animation
   myHero.idle.clear();
   myHero.idle.add(myHero.walkRight.get(0));
   myHero.currentAction = myHero.idle;
+
+  //enemy animation
+  battleEnemy.idle.clear();
+  battleEnemy.idle.add(battleEnemy.walkLeft.get(0));
+  battleEnemy.currentAction = battleEnemy.idle;
 }
 
 void battle() {
@@ -29,7 +34,7 @@ void battle() {
       //enemy moves to attack hero
       float dist = width/2 - myHero.r - battleEnemy.r;
       float speed = dist / (BATTLE_PACE/2);
-      
+
       //hero starts to move towards enemy
       if (timer < BATTLE_PACE/2) {
         myHero.x += speed;
@@ -41,7 +46,6 @@ void battle() {
         myHero.currentAction = myHero.attackRight;
         myHero.animate();
         myHero.action();
-        
       }
 
       //hero retreats back to starting position
@@ -74,21 +78,26 @@ void battle() {
     float speed = dist / (BATTLE_PACE/2);
     if (timer <= BATTLE_PACE/2) {
       battleEnemy.x -= speed;
+      battleEnemy.currentAction = battleEnemy.walkLeft;
     }
 
     //after half time the enemy attacks
     if (timer == BATTLE_PACE/2) {
+      battleEnemy.currentAction = battleEnemy.attackLeft;
+      battleEnemy.animate();
       int rand = (int)random(8, 12);
       myHero.damage(rand);
     }
 
+
     //enemy retreats back to starting position
-    if (timer >= BATTLE_PACE/2) {
+    if (timer > BATTLE_PACE) {
       battleEnemy.x += speed;
+      battleEnemy.currentAction = battleEnemy.walkLeft;
     }
 
     //after full time it is Hero's turn
-    if (timer == BATTLE_PACE) {
+    if (timer == BATTLE_PACE*1.5) {
       myHero.countering = false;
       turn = HERO;
     }

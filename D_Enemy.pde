@@ -6,14 +6,9 @@ class Enemy extends Person {
     c = red;
 
     //animation
-    walkUp.add   (loadImage("Animation/Up 1.png"));
-    walkUp.add   (loadImage("Animation/Up 2.png"));
-    walkDown.add (loadImage("Animation/Down 1.png"));
-    walkDown.add (loadImage("Animation/Down 2.png"));
-    walkRight.add(loadImage("Animation/Right 1.png"));
-    walkRight.add(loadImage("Animation/Right 2.png"));
-    walkLeft.add (loadImage("Animation/Left 1.png"));
-    walkLeft.add (loadImage("Animation/Left 2.png"));
+    bulkImageImport("Enemy", "Walk", 9, true);
+    bulkImageImport("Enemy", "Attack", 8, true);
+    bulkImageImport("Enemy", "Dead", 6, false);
     idle.add(walkDown.get(0));
     currentAction = idle;
   }//-------------------------------------------------- ~default constructor~ --------------------------------------------------
@@ -24,17 +19,12 @@ class Enemy extends Person {
     super(x, y);
     c = red;
 
-    //Animation
-    idle.add     (loadImage("Animation/Down 1.png"));
-    walkUp.add   (loadImage("Animation/Up 1.png"));
-    walkUp.add   (loadImage("Animation/Up 2.png"));
-    walkDown.add (loadImage("Animation/Down 1.png"));
-    walkDown.add (loadImage("Animation/Down 2.png"));
-    walkRight.add(loadImage("Animation/Right 1.png"));
-    walkRight.add(loadImage("Animation/Right 2.png"));
-    walkLeft.add (loadImage("Animation/Left 1.png"));
-    walkLeft.add (loadImage("Animation/Left 2.png"));
-    currentAction = idle;
+    //animation
+    bulkImageImport("Enemy", "Walk", 9, true);
+    bulkImageImport("Enemy", "Attack", 8, true);
+    bulkImageImport("Enemy", "Dead", 6, false);
+    idle.add(walkDown.get(0));
+    currentAction = attackLeft;
   }//-------------------------------------------------- ~coordinate constructor~ --------------------------------------------------
 
   Enemy(float x, float y, float r, int mHP, int cHP, int c) {
@@ -42,16 +32,11 @@ class Enemy extends Person {
     super(x, y, r, mHP, cHP, c);
     c = red;
 
-    //Animation
-    idle.add     (loadImage("Animation/Down 1.png"));
-    walkUp.add   (loadImage("Animation/Up 1.png"));
-    walkUp.add   (loadImage("Animation/Up 2.png"));
-    walkDown.add (loadImage("Animation/Down 1.png"));
-    walkDown.add (loadImage("Animation/Down 2.png"));
-    walkRight.add(loadImage("Animation/Right 1.png"));
-    walkRight.add(loadImage("Animation/Right 2.png"));
-    walkLeft.add (loadImage("Animation/Left 1.png"));
-    walkLeft.add (loadImage("Animation/Left 2.png"));
+    //animation
+    bulkImageImport("Enemy", "Walk", 9, true);
+    bulkImageImport("Enemy", "Attack", 8, true);
+    bulkImageImport("Enemy", "Dead", 6, false);
+    idle.add(walkDown.get(0));
     currentAction = idle;
   }//-------------------------------------------------- ~manual constructor~ --------------------------------------------------
 
@@ -60,21 +45,26 @@ class Enemy extends Person {
     super(copyEnemy);
     c = red;
 
-    //Animation
-    idle.add     (loadImage("Animation/Down 1.png"));
-    walkUp.add   (loadImage("Animation/Up 1.png"));
-    walkUp.add   (loadImage("Animation/Up 2.png"));
-    walkDown.add (loadImage("Animation/Down 1.png"));
-    walkDown.add (loadImage("Animation/Down 2.png"));
-    walkRight.add(loadImage("Animation/Right 1.png"));
-    walkRight.add(loadImage("Animation/Right 2.png"));
-    walkLeft.add (loadImage("Animation/Left 1.png"));
-    walkLeft.add (loadImage("Animation/Left 2.png"));
+    //animation
+    bulkImageImport("Enemy", "Walk", 9, true);
+    bulkImageImport("Enemy", "Attack", 8, true);
+    bulkImageImport("Enemy", "Dead", 6, false);
+    idle.add(walkDown.get(0));
     currentAction = idle;
   }//-------------------------------------------------- ~copy constructor~ --------------------------------------------------
 
   void show() {
-    if (mode == BATTLE) animate();
+    //battle animation
+    if (mode == BATTLE) {
+      if (turn == ENEMY) {
+        tint(white);
+      } else if (turn == HERO || turn == ACTION) {
+        tint(toDark(grey));
+      }
+    }
+
+    println(walkLeft.size());
+    animate();
     super.show();
   }//-------------------------------------------------- show --------------------------------------------------
 
