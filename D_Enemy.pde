@@ -63,11 +63,9 @@ class Enemy extends Person {
       }
     }
 
-    println(walkLeft.size());
     animate();
     super.show();
   }//-------------------------------------------------- show --------------------------------------------------
-
 
   void damage(int drop) { 
     super.damage(drop);

@@ -157,21 +157,38 @@ class Hero extends Person {
 
   void action() {
     float rand = 0;
+    int crit;
+    int miss;
     if (actionToDo.equals("poised strike")) {
-      rand = random(8, 12);
-      battleEnemy.damage(int(rand*multiplier));
+      crit = int(random(8));
+      miss = int(random(8));
+      if (crit == 0) battleEnemy.battleText = "crit!";
+      if (miss == 0) {
+        battleEnemy.battleText = "miss...";
+      } else {
+        rand = random(8, 12);
+        if (crit == 0) battleEnemy.damage(int(2*rand*multiplier));
+        else battleEnemy.damage(int(rand*multiplier));
+      }
     } 
-    
+    //-------------------------------------------
     else if (actionToDo.equals("reckless slash")) {
-      rand = (int)random(10, 20);
-      battleEnemy.damage(int(rand*multiplier));
+      crit = int(random(4));
+      miss = int(random(2));
+      if (crit == 0) battleEnemy.battleText = "crit!";
+      if (miss == 0) {
+        battleEnemy.battleText = "miss...";
+      } else {
+        rand = random(5, 20);
+        if (crit == 0) battleEnemy.damage(int(2*rand*multiplier));
+        else battleEnemy.damage(int(rand*multiplier));
+      }
     } 
-    
+    //-------------------------------------------
     else if (actionToDo.equals("invigorate")) {
-      if (multiplier == 1) multiplier = 1.1;
-      else multiplier *= 1.1;
+      battleEnemy.battleText = "invigorate!";
     } 
-    
+    //-------------------------------------------
     else if (actionToDo.equals("counter")) {
       countering = true;
     }

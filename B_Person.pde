@@ -21,6 +21,10 @@ class Person {
   int count = 0;
   int spriteNumber = 0; //Current sprite shown
   final int threshold = 10; //How many frames until you change spriteNumber
+  
+  //battle text
+  String battleText = "";
+  float alpha = 255;
 
   Person() {
     //basic
@@ -150,4 +154,14 @@ class Person {
       }
     }
   }//-------------------------------------------------- bulkImageImport --------------------------------------------------
+  
+  void textFade(){
+    textSize(64);
+    fill(black, alpha);
+    text(battleText, x, y*1.75);
+    if (alpha <= 0) {
+      battleText = "";
+      alpha = 255;
+    } else alpha -= 1;
+  }//-------------------------------------------------- textFade --------------------------------------------------
 }//-------------------------------------------------- ~Person~ --------------------------------------------------

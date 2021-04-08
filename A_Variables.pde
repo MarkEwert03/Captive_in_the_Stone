@@ -1,3 +1,5 @@
+import java.util.*;
+
 //mode framework
 final int INTRO  = 0;
 final int GAME   = 1;

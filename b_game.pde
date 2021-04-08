@@ -1,6 +1,4 @@
 void gameSetup() {
-  myHero.x = width/4;
-  myHero.y = height/4;
   myHero.r = (width*height)/40000;
 }
 
@@ -16,10 +14,6 @@ void game() {
   //Enemy
   for (Enemy e : enemyList) {
     e.show();
-  }
-
-  //battleCollision
-  for (Enemy e : enemyList) {
     if (dist(myHero.x, myHero.y, e.x, e.y) < myHero.r + e.r) {
       battleSetup();
       mode = BATTLE;

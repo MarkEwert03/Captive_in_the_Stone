@@ -26,6 +26,7 @@ void battle() {
   line(width/2, height/2, width/2, height);
   line(0, height/2, width, height/2);
   line(0, height*3/4, width, height*3/4);
+  
 
   //Hero
   myHero.show();
@@ -72,6 +73,7 @@ void battle() {
 
   //Enemy
   battleEnemy.show();
+  if (!battleEnemy.battleText.isEmpty()) battleEnemy.textFade();
   if (turn == ENEMY) {
     //enemy moves to attack hero
     float dist = width/2 - battleEnemy.r - myHero.r;
@@ -119,10 +121,11 @@ void battle() {
 
   //bottom right
   battleButton(width*3/4, height*7/8, "counter");
+  
 }//-------------------------------------------------- battle --------------------------------------------------
 
 void battleMousePressed() {
-  if (turn == HERO) {
+  if (turn == HERO && !heroChoice.isEmpty()) {
     turn = ACTION;
     myHero.actionToDo = heroChoice;
   }
