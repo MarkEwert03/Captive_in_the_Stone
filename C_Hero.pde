@@ -1,17 +1,12 @@
 class Hero extends Person {
   //Hero variables
-  final float speed = dist(0, 0, width, height)/400;
-  boolean countering = false;
-  float multiplier = 1;
+  final float speed = dist(0, 0, width, height)/200;
   String actionToDo = "";
 
   Hero() {
     //super
     super();
     c = blue;
-
-    //Hero
-    actionToDo = "";
 
     //animation
     bulkImageImport("Hero", "Walk", 9, true);
@@ -107,9 +102,9 @@ class Hero extends Person {
 
     //wall collision detection
     //use height instead of width so padding is consistant
-    if (!west && x - r <= height * wallRatio) x = height * wallRatio + r;
+    if (!west && x - r*2/3 <= height * wallRatio) x = height * wallRatio + r*2/3;
 
-    if (!north && y - r <= height * wallRatio) y = height * wallRatio + r;
+    if (!north && y - r*2/3 <= height * wallRatio) y = height * wallRatio + r*2/3;
 
     //use height instead of width so padding is consistant
     if (!east && x + r >= width - (height * wallRatio)) x = width - (height * wallRatio) - r;
@@ -160,36 +155,39 @@ class Hero extends Person {
     int crit;
     int miss;
     if (actionToDo.equals("poised strike")) {
-      crit = int(random(8));
-      miss = int(random(8));
+      crit = floor(random(15));
+      miss = floor(random(20));
       if (crit == 0) battleEnemy.battleText = "crit!";
       if (miss == 0) {
         battleEnemy.battleText = "miss...";
       } else {
-        rand = random(8, 12);
+        rand = random(40, 60);
         if (crit == 0) battleEnemy.damage(int(2*rand*multiplier));
         else battleEnemy.damage(int(rand*multiplier));
       }
     } 
     //-------------------------------------------
     else if (actionToDo.equals("reckless slash")) {
-      crit = int(random(4));
-      miss = int(random(2));
+      crit = floor(random(4));
+      miss = floor(random(4));
       if (crit == 0) battleEnemy.battleText = "crit!";
       if (miss == 0) {
         battleEnemy.battleText = "miss...";
       } else {
-        rand = random(5, 20);
+        rand = random(25, 100);
         if (crit == 0) battleEnemy.damage(int(2*rand*multiplier));
         else battleEnemy.damage(int(rand*multiplier));
       }
     } 
     //-------------------------------------------
     else if (actionToDo.equals("invigorate")) {
-      battleEnemy.battleText = "invigorate!";
+      actionToDo = "invigorate!";
+      if (multiplier < 1.2) multiplier = 1.2;
+      else multiplier *= 1.2;
     } 
     //-------------------------------------------
     else if (actionToDo.equals("counter")) {
+      actionToDo = "invigorate!";
       countering = true;
     }
   }//-------------------------------------------------- action --------------------------------------------------

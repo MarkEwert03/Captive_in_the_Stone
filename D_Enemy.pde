@@ -69,7 +69,10 @@ class Enemy extends Person {
 
   void damage(int drop) { 
     super.damage(drop);
-    if (currentHP <= 0) mode = GAME;
+    if (currentHP <= 0) {
+      gameSetup();
+      mode = GAME;
+    }
   }//-------------------------------------------------- damage --------------------------------------------------
 
   float move(float edge, int sec) {

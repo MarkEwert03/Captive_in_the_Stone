@@ -1,8 +1,10 @@
 class Person {
   //basic
-  float x, y, r;
-  int maxHP, currentHP;
-  color c;
+  float x, y;
+  float r = height/12;
+  int maxHP = 500;
+  int currentHP = maxHP;
+  color c = grey;
 
   //images
   ArrayList<PImage> idle          = new ArrayList<PImage>();
@@ -20,9 +22,11 @@ class Person {
   //animation
   int count = 0;
   int spriteNumber = 0; //Current sprite shown
-  final int threshold = 10; //How many frames until you change spriteNumber
+  int threshold = 10; //How many frames until you change spriteNumber
   
-  //battle text
+  //battle
+  boolean countering = false;
+  float multiplier = 1;
   String battleText = "";
   float alpha = 255;
 
@@ -30,19 +34,12 @@ class Person {
     //basic
     x = width/2;
     y = height/2;
-    r = (width*height)/40000;
-    maxHP = 100;
-    currentHP = maxHP;
   }//-------------------------------------------------- ~default constructor~ --------------------------------------------------
 
   Person(float x, float y) {
     //basic
     this.x = x;
     this.y = y;
-    this.r = (width*height)/40000;
-    this.maxHP = 100;
-    this.currentHP = maxHP;
-    this.c = grey;
   }//-------------------------------------------------- ~coordinate constructor~ --------------------------------------------------
 
   Person(float x, float y, float r, int mHP, int cHP, color c) {
@@ -76,7 +73,7 @@ class Person {
     //animating sprite
     //continue conting until count equals threshold (5) and then go to next sprite
     count++; 
-    if (count == threshold) {
+    if (count >= threshold) {
       count = 0;
       spriteNumber++;
     }
@@ -88,24 +85,24 @@ class Person {
   }//-------------------------------------------------- animate --------------------------------------------------
 
   private void healthBar(color c) {
-    float HP_X = map(currentHP, 0, maxHP, 0, 2*r);
+    float HP_X = map(currentHP, 0, maxHP, 0, 1.6*r);
 
     //inner health
     rectMode(CORNER);
     noStroke();
     fill(toLight(c));
-    rect(x - r, y - r*1.75, HP_X, r/2);
+    rect(x - r*0.8, y - r*1.25, HP_X, r/2);
 
     //outer shell
     rectMode(CENTER);
     stroke(2);
     noFill();
-    rect(x, y - r*1.5, 2*r, r/2);
+    rect(x, y - r, 1.6*r, r/2);
 
     //text amount
     fill(toDark(c));
     textSize(r/4);
-    text ("" + currentHP, x, y - r*1.5);
+    text ("" + currentHP, x, y - r);
   }//-------------------------------------------------- healthBar --------------------------------------------------
 
   void damage(int drop) { 
@@ -162,6 +159,6 @@ class Person {
     if (alpha <= 0) {
       battleText = "";
       alpha = 255;
-    } else alpha -= 1;
+    } else alpha -= 10;
   }//-------------------------------------------------- textFade --------------------------------------------------
 }//-------------------------------------------------- ~Person~ --------------------------------------------------

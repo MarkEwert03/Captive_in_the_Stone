@@ -1,5 +1,6 @@
 void gameSetup() {
-  myHero.r = (width*height)/40000;
+  myHero.r = height/12;
+  myHero.threshold = 10;
 }
 
 void game() {

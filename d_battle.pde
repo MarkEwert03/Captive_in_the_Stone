@@ -2,10 +2,12 @@ void battleSetup() {
   //Hero
   myHero.x = width/4;
   myHero.y = height/4;
-  myHero.r = height/8;
+  myHero.r = height/6;
+  myHero.threshold = 5;
 
   //Enemy
-  battleEnemy = new Enemy(width*3/4, height/4, height/8, 100, 100, red);
+  battleEnemy = new Enemy(width*3/4, height/4, height/6, 500, 500, black);
+  battleEnemy.threshold = 5;
 
   //hero animation
   myHero.idle.clear();
@@ -16,20 +18,14 @@ void battleSetup() {
   battleEnemy.idle.clear();
   battleEnemy.idle.add(battleEnemy.walkLeft.get(0));
   battleEnemy.currentAction = battleEnemy.idle;
-}
+}//-------------------------------------------------- battleSetup --------------------------------------------------
 
 void battle() {
-  //general
-  background(toDark(cyan));
-  stroke(white);
-  strokeWeight(5);
-  line(width/2, height/2, width/2, height);
-  line(0, height/2, width, height/2);
-  line(0, height*3/4, width, height*3/4);
-  
+  battleUI();
 
   //Hero
   myHero.show();
+  if (!myHero.actionToDo.isEmpty())myHero.textFade();
   if (turn == ACTION) {
     if (myHero.actionToDo.equals("poised strike") || myHero.actionToDo.equals("reckless slash")) {
       //enemy moves to attack hero
@@ -63,7 +59,7 @@ void battle() {
 
       //keep couting until enemy's turn is done and then reset timer
       if (turn == ACTION) timer++;
-      else timer = 0;
+      else timer = -BATTLE_PACE/2;
     } else {
       myHero.action();
       myHero.currentAction = myHero.idle;
@@ -78,7 +74,7 @@ void battle() {
     //enemy moves to attack hero
     float dist = width/2 - battleEnemy.r - myHero.r;
     float speed = dist / (BATTLE_PACE/2);
-    if (timer <= BATTLE_PACE/2) {
+    if (0 <= timer && timer <= BATTLE_PACE/2) {
       battleEnemy.x -= speed;
       battleEnemy.currentAction = battleEnemy.walkLeft;
     }
@@ -101,6 +97,7 @@ void battle() {
     //after full time it is Hero's turn
     if (timer == BATTLE_PACE*1.5) {
       myHero.countering = false;
+      battleEnemy.currentAction = battleEnemy.idle;
       turn = HERO;
     }
 
@@ -108,20 +105,6 @@ void battle() {
     if (turn == ENEMY) timer++;
     else timer = 0;
   }
-
-  //Buttons
-  //top left
-  battleButton(width/4, height*5/8, "poised strike");
-
-  //top right
-  battleButton(width*3/4, height*5/8, "reckless slash");
-
-  //bottom left
-  battleButton(width/4, height*7/8, "invigorate");
-
-  //bottom right
-  battleButton(width*3/4, height*7/8, "counter");
-  
 }//-------------------------------------------------- battle --------------------------------------------------
 
 void battleMousePressed() {
@@ -131,6 +114,40 @@ void battleMousePressed() {
   }
 }//-------------------------------------------------- battleMousePressed --------------------------------------------------
 
+void battleUI() {
+  //General
+  background(toDark(hereColor));
+  if (turn == HERO) {
+    stroke(white);
+    strokeWeight(5);
+    line(width/2, height/2, width/2, height);
+    line(0, height/2, width, height/2);
+    line(0, height*3/4, width, height*3/4);
+
+    //Buttons
+    //top left
+    battleButton(width/4, height*5/8, "poised strike");
+
+    //top right
+    battleButton(width*3/4, height*5/8, "reckless slash");
+
+    //bottom left
+    battleButton(width/4, height*7/8, "invigorate");
+
+    //bottom right
+    battleButton(width*3/4, height*7/8, "counter");
+  } else{
+    noStroke();
+    fill(hereColor);
+    rectMode(CORNER);
+    rect(0, height/2, width, height/2);
+    fill(black);
+    textSize(96);
+    if (turn == ACTION) text("Hero uses " + myHero.actionToDo + "!", width/2, height*3/4);
+    else if (turn == ENEMY) text("Opposing enemy uses unruly stab!", width/2, height*3/4);
+  }
+}//-------------------------------------------------- battleUI --------------------------------------------------
+
 void battleButton(float x, float y, String txt) {
   rectMode(CENTER);
   //tactile
@@ -139,8 +156,7 @@ void battleButton(float x, float y, String txt) {
   float top = y - height/16;
   float bottom = y + height/16;
   if (mouseX > left && mouseY > top && mouseX < right && mouseY < bottom) {
-    if (turn == HERO) fill (toLight(cyan));
-    else fill(white);
+    fill (toLight(hereColor));
     heroChoice = txt;
   } else {
     fill(white);
