@@ -16,6 +16,10 @@ class Person {
   ArrayList<PImage> attackUp      = new ArrayList<PImage>();
   ArrayList<PImage> attackRight   = new ArrayList<PImage>();
   ArrayList<PImage> attackDown    = new ArrayList<PImage>();
+  ArrayList<PImage> chargeLeft    = new ArrayList<PImage>();
+  ArrayList<PImage> chargeUp      = new ArrayList<PImage>();
+  ArrayList<PImage> chargeRight   = new ArrayList<PImage>();
+  ArrayList<PImage> chargeDown    = new ArrayList<PImage>();
   ArrayList<PImage> dead          = new ArrayList<PImage>();
   ArrayList<PImage> currentAction = new ArrayList<PImage>();
 
@@ -23,7 +27,7 @@ class Person {
   int count = 0;
   int spriteNumber = 0; //Current sprite shown
   int threshold = 10; //How many frames until you change spriteNumber
-  
+
   //battle
   boolean countering = false;
   float multiplier = 1;
@@ -63,7 +67,13 @@ class Person {
 
   void show() {
     //image that is actually showing
+    noTint();
     image(currentAction.get(spriteNumber), x, y, 2*r, 2*r);
+    
+    if (this instanceof Enemy) {
+      tint(hereColor, 196);
+      image(currentAction.get(spriteNumber), x, y, 2*r, 2*r);
+    }
 
     //HP bar
     if (mode == BATTLE || mode == MENU) healthBar(c);
@@ -91,7 +101,12 @@ class Person {
     rectMode(CORNER);
     noStroke();
     fill(toLight(c));
+    rect(x - r*0.8, y - r*1.25, 1.6*r, r/2);
+    
+    //healthbar  
+    fill(c);
     rect(x - r*0.8, y - r*1.25, HP_X, r/2);
+    
 
     //outer shell
     rectMode(CENTER);
@@ -116,15 +131,20 @@ class Person {
     ArrayList<PImage> tempRight = new ArrayList<PImage>();
     ArrayList<PImage> tempDown  = new ArrayList<PImage>();
     if (action.equals("Walk")) {
-      tempLeft = walkLeft;
-      tempUp = walkUp;
+      tempLeft  = walkLeft;
+      tempUp    = walkUp;
       tempRight = walkRight;
-      tempDown = walkDown;
+      tempDown  = walkDown;
     } else if (action.equals("Attack")) {
-      tempLeft = attackLeft;
-      tempUp = attackUp;
+      tempLeft  = attackLeft;
+      tempUp    = attackUp;
       tempRight = attackRight;
-      tempDown = attackDown;
+      tempDown  = attackDown;
+    } else if (action.equals("Charge")){
+      tempLeft  = chargeLeft;
+      tempUp    = chargeUp;
+      tempRight = chargeRight;
+      tempDown  = chargeDown;
     }
 
 
@@ -151,8 +171,8 @@ class Person {
       }
     }
   }//-------------------------------------------------- bulkImageImport --------------------------------------------------
-  
-  void textFade(){
+
+  void textFade() {
     textSize(64);
     fill(black, alpha);
     text(battleText, x, y*1.75);

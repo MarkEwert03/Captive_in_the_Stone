@@ -6,7 +6,7 @@ void battleSetup() {
   myHero.threshold = 5;
 
   //Enemy
-  battleEnemy = new Enemy(width*3/4, height/4, height/6, 500, 500, black);
+  battleEnemy = new Enemy(width*3/4, height/4, height/6, 400, 400, hereColor);
   battleEnemy.threshold = 5;
 
   //hero animation
@@ -18,6 +18,8 @@ void battleSetup() {
   battleEnemy.idle.clear();
   battleEnemy.idle.add(battleEnemy.walkLeft.get(0));
   battleEnemy.currentAction = battleEnemy.idle;
+  
+  turn = HERO;
 }//-------------------------------------------------- battleSetup --------------------------------------------------
 
 void battle() {
@@ -25,86 +27,26 @@ void battle() {
 
   //Hero
   myHero.show();
-  if (!myHero.actionToDo.isEmpty())myHero.textFade();
+  if (!myHero.battleText.isEmpty()) myHero.textFade();
   if (turn == ACTION) {
-    if (myHero.actionToDo.equals("poised strike") || myHero.actionToDo.equals("reckless slash")) {
-      //enemy moves to attack hero
-      float dist = width/2 - myHero.r - battleEnemy.r;
-      float speed = dist / (BATTLE_PACE/2);
-
-      //hero starts to move towards enemy
-      if (timer < BATTLE_PACE/2) {
-        myHero.x += speed;
-        myHero.currentAction = myHero.walkRight;
-      }   
-
-      //after half time seconds the hero attacks
-      if (timer == BATTLE_PACE/2) {
-        myHero.currentAction = myHero.attackRight;
-        myHero.animate();
-        myHero.action();
-      }
-
-      //hero retreats back to starting position
-      if (timer > BATTLE_PACE) {
-        myHero.x -= speed;
-        myHero.currentAction = myHero.walkRight;
-      }
-
-      //after full time it is Enemy's turn
-      if (timer == BATTLE_PACE*1.5) {
-        myHero.currentAction = myHero.idle;
-        turn = ENEMY;
-      }
-
-      //keep couting until enemy's turn is done and then reset timer
-      if (turn == ACTION) timer++;
-      else timer = -BATTLE_PACE/2;
-    } else {
-      myHero.action();
-      myHero.currentAction = myHero.idle;
-      turn = ENEMY;
-    }
+    myHero.toBattle();
+    battleEnemy.actionToDo = "";
   }
-
+  
   //Enemy
   battleEnemy.show();
+  if (battleEnemy.actionToDo.isEmpty()) battleEnemy.decideAction(red);
   if (!battleEnemy.battleText.isEmpty()) battleEnemy.textFade();
   if (turn == ENEMY) {
-    //enemy moves to attack hero
-    float dist = width/2 - battleEnemy.r - myHero.r;
-    float speed = dist / (BATTLE_PACE/2);
-    if (0 <= timer && timer <= BATTLE_PACE/2) {
-      battleEnemy.x -= speed;
-      battleEnemy.currentAction = battleEnemy.walkLeft;
-    }
-
-    //after half time the enemy attacks
-    if (timer == BATTLE_PACE/2) {
-      battleEnemy.currentAction = battleEnemy.attackLeft;
-      battleEnemy.animate();
-      int rand = (int)random(8, 12);
-      myHero.damage(rand);
-    }
-
-
-    //enemy retreats back to starting position
-    if (timer > BATTLE_PACE) {
-      battleEnemy.x += speed;
-      battleEnemy.currentAction = battleEnemy.walkLeft;
-    }
-
-    //after full time it is Hero's turn
-    if (timer == BATTLE_PACE*1.5) {
-      myHero.countering = false;
-      battleEnemy.currentAction = battleEnemy.idle;
-      turn = HERO;
-    }
-
-    //keep couting until enemy's turn is done and then reset timer
-    if (turn == ENEMY) timer++;
-    else timer = 0;
+    battleEnemy.toBattle();
+    myHero.actionToDo = "";
   }
+  
+  if (turn == HERO){
+    myHero.countering = false;
+    battleEnemy.anticipating = false;
+  }
+  
 }//-------------------------------------------------- battle --------------------------------------------------
 
 void battleMousePressed() {
@@ -136,7 +78,7 @@ void battleUI() {
 
     //bottom right
     battleButton(width*3/4, height*7/8, "counter");
-  } else{
+  } else {
     noStroke();
     fill(hereColor);
     rectMode(CORNER);
@@ -144,7 +86,7 @@ void battleUI() {
     fill(black);
     textSize(96);
     if (turn == ACTION) text("Hero uses " + myHero.actionToDo + "!", width/2, height*3/4);
-    else if (turn == ENEMY) text("Opposing enemy uses unruly stab!", width/2, height*3/4);
+    else if (turn == ENEMY) text("Opposing enemy uses " + battleEnemy.actionToDo, width/2, height*3/4);
   }
 }//-------------------------------------------------- battleUI --------------------------------------------------
 

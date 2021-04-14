@@ -8,12 +8,8 @@ class Hero extends Person {
     super();
     c = blue;
 
-    //animation
-    bulkImageImport("Hero", "Walk", 9, true);
-    bulkImageImport("Hero", "Attack", 6, true);
-    bulkImageImport("Hero", "Dead", 6, false);
-    idle.add(walkDown.get(0));
-    currentAction = idle;
+    //other
+    allHeroConstructor();
   }//-------------------------------------------------- ~default constructor~ --------------------------------------------------
 
   Hero(float x, float y) {
@@ -21,24 +17,16 @@ class Hero extends Person {
     super(x, y);
     c = blue;
 
-    //animation
-    bulkImageImport("Hero", "Walk", 9, true);
-    bulkImageImport("Hero", "Attack", 6, true);
-    bulkImageImport("Hero", "Dead", 6, false);
-    idle.add(walkDown.get(0));
-    currentAction = idle;
+    //other
+    allHeroConstructor();
   }//-------------------------------------------------- ~manual constructor~ --------------------------------------------------
 
   Hero(float x, float y, float r, int mHP, int cHP, int c) {
     //super
     super(x, y, r, cHP, mHP, c);
 
-    //animation
-    bulkImageImport("Hero", "Walk", 9, true);
-    bulkImageImport("Hero", "Attack", 6, true);
-    bulkImageImport("Hero", "Dead", 6, false);
-    idle.add(walkDown.get(0));
-    currentAction = idle;
+    //other
+    allHeroConstructor();
   }//-------------------------------------------------- ~manual constructor~ --------------------------------------------------
 
   Hero(Hero copyHero) {
@@ -49,13 +37,19 @@ class Hero extends Person {
     countering = copyHero.countering;
     actionToDo = copyHero.actionToDo;
 
+    //other
+    allHeroConstructor();
+  }//-------------------------------------------------- ~copy constructor~ --------------------------------------------------
+
+  private void allHeroConstructor() {
     //animation
     bulkImageImport("Hero", "Walk", 9, true);
+    bulkImageImport("Hero", "Charge", 7, true);
     bulkImageImport("Hero", "Attack", 6, true);
     bulkImageImport("Hero", "Dead", 6, false);
     idle.add(walkDown.get(0));
     currentAction = idle;
-  }//-------------------------------------------------- ~copy constructor~ --------------------------------------------------
+  }//-------------------------------------------------- allHeroConstructor --------------------------------------------------
 
   void show() {
     //battle animation
@@ -148,47 +142,93 @@ class Hero extends Person {
       switchRoom();
       y = height * wallRatio + r;
     }
-  }//-------------------------------------------------- cehckSouth --------------------------------------------------
+  }//-------------------------------------------------- checkSouth --------------------------------------------------
+
+  void toBattle() {
+    if (actionToDo.equals("poised strike") || actionToDo.equals("reckless slash")) {
+      threshold = 5;
+      //enemy moves to attack hero
+      float dist = width/2 - r - battleEnemy.r;
+      float speed = dist / (BATTLE_PACE/2);
+
+      //hero starts to move towards enemy
+      if (timer < BATTLE_PACE/2) {
+        x += speed;
+        currentAction = walkRight;
+      }   
+
+      //after half time seconds the hero attacks
+      if (timer == BATTLE_PACE/2) {
+        currentAction = attackRight;
+        animate();
+        action();
+      }
+
+      //hero retreats back to starting position
+      if (timer > BATTLE_PACE) {
+        x -= speed;
+        currentAction = walkRight;
+      }
+    } else {
+      //invigorate or counter
+      if (timer == 0) {
+        if (actionToDo.equals("invigorate")) currentAction = chargeDown;
+        else if (actionToDo.equals("counter")) currentAction = chargeRight;
+        animate();
+        action();
+      }
+    }
+
+    //after full time it is Enemy's turn
+    if (timer == BATTLE_PACE*1.5) {
+      currentAction = idle;
+      turn = ENEMY;
+    }
+
+    //keep couting until enemy's turn is done and then reset timer
+    if (turn == ACTION) timer++;
+    else timer = -BATTLE_PACE/2;
+  }//-------------------------------------------------- toBattle --------------------------------------------------
 
   void action() {
-    float rand = 0;
-    int crit;
-    int miss;
+    float rand;
+    int crit, miss;
+    
     if (actionToDo.equals("poised strike")) {
       crit = floor(random(15));
       miss = floor(random(20));
       if (crit == 0) battleEnemy.battleText = "crit!";
-      if (miss == 0) {
-        battleEnemy.battleText = "miss...";
-      } else {
+      if (miss == 0) battleEnemy.battleText = "miss...";
+      else {
         rand = random(40, 60);
         if (crit == 0) battleEnemy.damage(int(2*rand*multiplier));
         else battleEnemy.damage(int(rand*multiplier));
       }
     } 
-    //-------------------------------------------
+    //- - - - - - - - - - - - - - - - - - - - - -
     else if (actionToDo.equals("reckless slash")) {
       crit = floor(random(4));
       miss = floor(random(4));
       if (crit == 0) battleEnemy.battleText = "crit!";
-      if (miss == 0) {
-        battleEnemy.battleText = "miss...";
-      } else {
+      if (miss == 0) battleEnemy.battleText = "miss...";
+      else {
         rand = random(25, 100);
         if (crit == 0) battleEnemy.damage(int(2*rand*multiplier));
         else battleEnemy.damage(int(rand*multiplier));
       }
     } 
-    //-------------------------------------------
+    //- - - - - - - - - - - - - - - - - - - - - -
     else if (actionToDo.equals("invigorate")) {
-      actionToDo = "invigorate!";
       if (multiplier < 1.2) multiplier = 1.2;
       else multiplier *= 1.2;
     } 
-    //-------------------------------------------
+    //- - - - - - - - - - - - - - - - - - - - - -
     else if (actionToDo.equals("counter")) {
-      actionToDo = "invigorate!";
       countering = true;
+    }
+    //- - - - - - - - - - - - - - - - - - - - - -
+    else {
+      print("error! not a valid action");
     }
   }//-------------------------------------------------- action --------------------------------------------------
 

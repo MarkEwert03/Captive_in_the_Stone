@@ -4,7 +4,6 @@ void gameSetup() {
 }
 
 void game() {
-
   //room
   drawRoom();
 
