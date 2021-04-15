@@ -1,5 +1,4 @@
 class Enemy extends Person {
-  String actionToDo = "";
   boolean anticipating = false;
 
   Enemy() {
@@ -12,13 +11,20 @@ class Enemy extends Person {
   }//-------------------------------------------------- ~default constructor~ --------------------------------------------------
 
   //constructor(s)
-  Enemy(float x, float y) {
+  Enemy(float x, float y, int direction) {
     //super
     super(x, y);
     c = red;
-
+    
     //animation
     allEnemyConstructor();
+    idle.clear();
+    if (direction == 'w') idle.add(attackRight.get(4));
+    else if (direction == 'n') idle.add(attackDown.get(4));
+    else if (direction == 'e') idle.add(attackLeft.get(4));
+    else if (direction == 's') idle.add(attackUp.get(4));
+    else idle.add(dead.get(4));
+
   }//-------------------------------------------------- ~coordinate constructor~ --------------------------------------------------
 
   Enemy(float x, float y, float r, int mHP, int cHP, int c) {
@@ -28,6 +34,7 @@ class Enemy extends Person {
 
     //animation
     allEnemyConstructor();
+    
   }//-------------------------------------------------- ~manual constructor~ --------------------------------------------------
 
   Enemy(Enemy copyEnemy) {
@@ -45,7 +52,7 @@ class Enemy extends Person {
     bulkImageImport("Enemy", "Attack", 8, true);
     bulkImageImport("Enemy", "Charge", 7, true);
     bulkImageImport("Enemy", "Dead", 6, false);
-    idle.add(attackLeft.get(4));
+    idle.add(chargeDown.get(4));
     currentAction = idle;
   }//-------------------------------------------------- allHeroConstructor --------------------------------------------------
 
@@ -165,7 +172,9 @@ class Enemy extends Person {
   void damage(int drop) { 
     super.damage(drop);
     if (currentHP <= 0) {
+      clearedRooms[roomX][roomY] = true;
       gameSetup();
+      switchRoom();
       mode = GAME;
     }
   }//-------------------------------------------------- damage --------------------------------------------------

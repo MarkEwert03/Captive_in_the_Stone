@@ -29,7 +29,7 @@ class Person {
   int threshold = 10; //How many frames until you change spriteNumber
 
   //battle
-  boolean countering = false;
+  String actionToDo = "";
   float multiplier = 1;
   String battleText = "";
   float alpha = 255;

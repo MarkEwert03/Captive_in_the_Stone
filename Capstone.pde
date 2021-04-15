@@ -23,9 +23,15 @@ void setup() {
   //image
   imageMode(CENTER);
   map = loadImage("Map.png");
-  roomX = 1;
+  clearedRooms = new boolean[map.width][map.height];
+  for (int x = 0; x < map.width; x++) {
+    for (int y = 0; y < map.height; y++) {
+      color roomC = map.get(x, y);
+      if (roomC == pink || roomC == violet) clearedRooms[x][y] = true;
+    }
+  }
+  roomX = 3;
   roomY = 1;
-
   switchRoom();
 }//-------------------------------------------------- setup --------------------------------------------------
 
@@ -66,14 +72,16 @@ void keyReleased() {
 
 color toLight(color c) {
   color returnC;
-  if (saturation(c) == 0) returnC = color(0, 0, 75);
+  if (c == darkGrey) return black;
+  else if (saturation(c) == 0) returnC = color(0, 0, 75);
   else returnC = color(hue(c), 50, 100);
   return returnC;
 }//-------------------------------------------------- toLight --------------------------------------------------
 
 color toDark(color c) {
   color returnC;
-  if (saturation(c) == 0) returnC = color(0, 0, 25);
+  if (c == darkGrey) return grey;
+  else if (saturation(c) == 0) returnC = color(0, 0, 25);
   else returnC = color(hue(c), 100, 50);
   return returnC;
 }//-------------------------------------------------- toDark --------------------------------------------------

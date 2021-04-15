@@ -6,7 +6,7 @@ void battleSetup() {
   myHero.threshold = 5;
 
   //Enemy
-  battleEnemy = new Enemy(width*3/4, height/4, height/6, 400, 400, hereColor);
+  battleEnemy = new Enemy(width*3/4, height/4, height/6, 50, 50, hereColor);
   battleEnemy.threshold = 5;
 
   //hero animation
@@ -19,6 +19,8 @@ void battleSetup() {
   battleEnemy.idle.add(battleEnemy.walkLeft.get(0));
   battleEnemy.currentAction = battleEnemy.idle;
   
+  //other
+  timer = 0;
   turn = HERO;
 }//-------------------------------------------------- battleSetup --------------------------------------------------
 

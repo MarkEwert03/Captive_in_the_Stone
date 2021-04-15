@@ -21,8 +21,10 @@ Enemy battleEnemy;
 boolean leftKey, upKey, rightKey, downKey, spaceKey;
 
 //map
-PImage map; 
+PImage map;
+boolean[][] clearedRooms;
 int roomX, roomY; //xy coordinates of map's pixels
+int pRoomX, pRoomY; //previous xy coordinates of the map's pixels
 boolean west, north, east, south; //indicates if each direction is avalible to go to for the next room
 float wallRatio = 1.0/8;
 
@@ -52,6 +54,7 @@ final color violet          = #df20df;
 final color pink            = #df2080;
 final color white           = #ffffff;
 final color grey            = #808080;
+final color darkGrey        = #3f3f3f;
 final color black           = #000000;
 
 //map colors

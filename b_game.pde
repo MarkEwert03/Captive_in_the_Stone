@@ -1,6 +1,14 @@
 void gameSetup() {
+  //Hero fields
+  myHero.x = width/2;
+  myHero.y = height/2;
   myHero.r = height/12;
   myHero.threshold = 10;
+  
+  //Hero animation
+  myHero.idle.clear();
+  myHero.idle.add(myHero.walkDown.get(0));
+  myHero.currentAction = myHero.idle;
 }
 
 void game() {
@@ -35,11 +43,11 @@ void switchRoom() {
   southColor = map.get(roomX, roomY+1);
 
   //checks map for bording rooms based on adjacent pixel colours
-  if (hereColor != grey) {
-    if (westColor  != grey) west  = true;
-    if (northColor != grey) north = true;
-    if (eastColor  != grey) east  = true;
-    if (southColor != grey) south = true;
+  if (hereColor != white) {
+    if (westColor  != white) west  = true;
+    if (northColor != white) north = true;
+    if (eastColor  != white) east  = true;
+    if (southColor != white) south = true;
   } else {
     //bug checking
     println("In a nonexistent room so hereColor is" + hereColor);
@@ -48,16 +56,21 @@ void switchRoom() {
 
   //adding enemies
   enemyList.clear();
-  if (west)  enemyList.add(new Enemy(height * wallRatio, height/2));
-  if (north) enemyList.add(new Enemy(width/2, height * wallRatio));
-  if (east)  enemyList.add(new Enemy(width * (1 - wallRatio), height/2));
-  if (south) enemyList.add(new Enemy(width/2, height * (1 - wallRatio)));
+  if (clearedRooms[roomX][roomY] == false) {
+    if (west && roomX != pRoomX+1)  enemyList.add(new Enemy(height * wallRatio, height*random(0.25, 0.75), 'w'));
+    if (north && roomY != pRoomY+1) enemyList.add(new Enemy(width*random(0.25, 0.75), height * wallRatio, 'n'));
+    if (east && roomX != pRoomX-1)  enemyList.add(new Enemy(width * (1 - wallRatio), height*random(0.25, 0.75), 'e'));
+    if (south && roomY != pRoomY-1) enemyList.add(new Enemy(width*random(0.25, 0.75), height * (1 - wallRatio), 's'));
+    
+    if (roomX == 5 && roomY == 1) enemyList.add(new Enemy(width*random(0.25, 0.75), height * wallRatio, 'n'));
+  }
 }//-------------------------------------------------- switchRoom --------------------------------------------------
 
 void drawRoom() {
   background(hereColor);
 
   //drawing the barriers
+  noStroke();
   rectMode(CORNERS);
   fill(grey);
 

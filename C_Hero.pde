@@ -1,12 +1,12 @@
 class Hero extends Person {
   //Hero variables
-  final float speed = dist(0, 0, width, height)/200;
-  String actionToDo = "";
+  final float speed = dist(0, 0, width, height)/100;
+  boolean countering = false;
 
   Hero() {
     //super
     super();
-    c = blue;
+    c = pink;
 
     //other
     allHeroConstructor();
@@ -15,7 +15,7 @@ class Hero extends Person {
   Hero(float x, float y) {
     //super
     super(x, y);
-    c = blue;
+    c = pink;
 
     //other
     allHeroConstructor();
@@ -114,6 +114,8 @@ class Hero extends Person {
 
   void checkWest() {
     if (west && x - r <= 0) {
+      pRoomX = roomX;
+      pRoomY = roomY;
       roomX--;
       switchRoom();
       x = width * (1 - wallRatio) - r;
@@ -122,6 +124,8 @@ class Hero extends Person {
 
   void checkNorth() {
     if (north && y - r <= 0) {
+      pRoomX = roomX;
+      pRoomY = roomY;
       roomY--;
       switchRoom();
       y = height * (1 - wallRatio) - r;
@@ -130,6 +134,8 @@ class Hero extends Person {
 
   void checkEast() {
     if (east && x + r >= width) {
+      pRoomX = roomX;
+      pRoomY = roomY;
       roomX++;
       switchRoom();
       x = width * wallRatio + r;
@@ -138,6 +144,8 @@ class Hero extends Person {
 
   void checkSouth() {
     if (south && y + r >= height) {
+      pRoomX = roomX;
+      pRoomY = roomY;
       roomY++;
       switchRoom();
       y = height * wallRatio + r;
@@ -193,7 +201,7 @@ class Hero extends Person {
   void action() {
     float rand;
     int crit, miss;
-    
+
     if (actionToDo.equals("poised strike")) {
       crit = floor(random(15));
       miss = floor(random(20));
