@@ -15,7 +15,7 @@ class Enemy extends Person {
     //super
     super(x, y);
     c = red;
-    
+
     //animation
     allEnemyConstructor();
     idle.clear();
@@ -24,7 +24,6 @@ class Enemy extends Person {
     else if (direction == 'e') idle.add(attackLeft.get(4));
     else if (direction == 's') idle.add(attackUp.get(4));
     else idle.add(dead.get(4));
-
   }//-------------------------------------------------- ~coordinate constructor~ --------------------------------------------------
 
   Enemy(float x, float y, float r, int mHP, int cHP, int c) {
@@ -34,7 +33,6 @@ class Enemy extends Person {
 
     //animation
     allEnemyConstructor();
-    
   }//-------------------------------------------------- ~manual constructor~ --------------------------------------------------
 
   Enemy(Enemy copyEnemy) {
@@ -60,15 +58,35 @@ class Enemy extends Person {
     //battle animation
     if (mode == BATTLE) {
       if (turn == ENEMY) {
-        tint(white);
+        noTint();
       } else if (turn == HERO || turn == ACTION) {
-        tint(toDark(grey));
+        if (anticipating) tint(hereColor, 196);
+        else tint(toDark(grey));
       }
+      fill(black);
+      textSize(64);
+      text(goodRound(powerLevels[progress], 1) + "x", x + 2*r, y);
     }
 
     animate();
     super.show();
   }//-------------------------------------------------- show --------------------------------------------------
+
+  void decideAction(color roomC) {
+    //0 = unruly stab
+    //1 = barbaric thrust
+    //2 = enrage
+    //3 = anticipate
+    int[] choices;
+
+    choices = new int[]{0, 1, 2, 3};
+    int chosenAction = choices[floor(random(choices.length))];
+    if (chosenAction == 0) actionToDo = "unruly stab";
+    else if (chosenAction == 1) actionToDo = "barbaric thrust";
+    else if (chosenAction == 2) actionToDo = "enrage";
+    else if (chosenAction == 3) actionToDo = "anticipate";
+    else actionToDo = "error! not a valid action";
+  }//-------------------------------------------------- decideAction --------------------------------------------------
 
   void toBattle() {
     if (actionToDo.equals("unruly stab") || actionToDo.equals("barbaric thrust")) {
@@ -105,29 +123,18 @@ class Enemy extends Person {
     //after full time it is Hero's turn
     if (timer == BATTLE_PACE*1.5) {
       currentAction = idle;
-      turn = HERO;
+      if (reverseOrder) turn = ACTION;
+      else {
+        turn = HERO;
+        actionToDo = "";
+        battleEnemy.actionToDo = "";
+      }
     }
 
     //keep couting until enemy's turn is done and then reset timer
     if (turn == ENEMY) timer++;
     else timer = 0;
   }//-------------------------------------------------- toBattle --------------------------------------------------
-
-  void decideAction(color roomC) {
-    //0 = unruly stab
-    //1 = barbaric thrust
-    //2 = enrage
-    //3 = anticipate
-    int[] choices;
-
-    choices = new int[]{0, 1, 2, 3};
-    int chosenAction = choices[floor(random(choices.length))];
-    if (chosenAction == 0) actionToDo = "unruly stab";
-    else if (chosenAction == 1) actionToDo = "barbaric thrust";
-    else if (chosenAction == 2) actionToDo = "enrage";
-    else if (chosenAction == 3) actionToDo = "anticipate";
-    else actionToDo = "error! not a valid action";
-  }//-------------------------------------------------- decideAction --------------------------------------------------
 
   void action() {
     float rand;
@@ -140,8 +147,13 @@ class Enemy extends Person {
       if (miss == 0) myHero.battleText = "miss!";
       else {
         rand = random(40, 60);
-        if (crit == 0) myHero.damage(int(2*rand*multiplier));
-        else myHero.damage(int(rand*multiplier));
+        if (!myHero.countering) {
+          if (crit == 0) myHero.damage(int(2*rand*powerLevels[progress]));
+        else myHero.damage(int(rand*powerLevels[progress]));
+        } else {
+          damage(maxHP/10);
+          myHero.countering = false;
+        }
       }
     }
     //- - - - - - - - - - - - - - - - - - - -
@@ -152,12 +164,19 @@ class Enemy extends Person {
       if (miss == 0) myHero.battleText = "miss!";
       else {
         rand = random(25, 75);
-        if (crit == 0) myHero.damage(int(2*rand*multiplier));
-        else myHero.damage(int(rand*multiplier));
+        if (!myHero.countering) {
+          if (crit == 0) myHero.damage(int(2*rand*powerLevels[progress]));
+        else myHero.damage(int(rand*powerLevels[progress]));
+        } else {
+          damage(int(powerLevels[progress]*maxHP/10));
+          myHero.countering = false;
+        }
       }
     }
     // - - - - - - - - - - - - - - - - - - - - 
     else if (actionToDo.equals("enrage")) {
+      if (progress < 6) progress++;
+      else battleText = "power level is maxed";
     } 
     // - - - - - - - - - - - - - - - - - - - - 
     else if (actionToDo.equals("anticipate")) {
@@ -168,6 +187,23 @@ class Enemy extends Person {
       print("error! not a valid action");
     }
   }//-------------------------------------------------- action --------------------------------------------------
+
+  void resetCounter() {
+    if (currentAction != dead) spriteNumber = 0;
+    if (anticipating) {
+      currentAction = dead;
+      animate();
+      threshold = 15;
+      if (spriteNumber == 5) {
+        damage(maxHP/10);
+        spriteNumber = 0;
+        count = 0;
+        currentAction = idle;
+        threshold = 5;
+        anticipating = false;
+      }
+    }
+  }//-------------------------------------------------- resetCounter --------------------------------------------------
 
   void damage(int drop) { 
     super.damage(drop);

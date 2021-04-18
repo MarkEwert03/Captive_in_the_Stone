@@ -30,9 +30,10 @@ class Person {
 
   //battle
   String actionToDo = "";
-  float multiplier = 1;
   String battleText = "";
   float alpha = 255;
+  float[] powerLevels = new float[]{1, 1.1, 1.3, 1.6, 2.0, 2.5, 3.0};
+  int progress = 5;
 
   Person() {
     //basic
@@ -67,9 +68,11 @@ class Person {
 
   void show() {
 
-    if (mode == GAME) noTint();
-    if (this instanceof Enemy) tint(hereColor, 196);
-    
+    if (mode == GAME) {
+      noTint();
+      if (this instanceof Enemy) tint(hereColor, 196);
+    }
+
     //actual image showing
     image(currentAction.get(spriteNumber), x, y, 2*r, 2*r);
 

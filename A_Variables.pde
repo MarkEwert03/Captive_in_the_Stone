@@ -35,6 +35,7 @@ final int ENEMY = 2;
 final int BATTLE_PACE = 60;
 int turn = HERO;
 int timer = 0;
+boolean reverseOrder = false;
 
 //other
 boolean transition = false;

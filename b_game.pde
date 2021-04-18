@@ -3,7 +3,7 @@ void gameSetup() {
   myHero.x = width/2;
   myHero.y = height/2;
   myHero.r = height/12;
-  myHero.threshold = 10;
+  myHero.threshold = 5;
   
   //Hero animation
   myHero.idle.clear();

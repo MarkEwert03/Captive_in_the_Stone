@@ -60,6 +60,9 @@ class Hero extends Person {
         if (countering) tint(pink);
         else tint(toDark(grey));
       }
+      fill(black);
+      textSize(64);
+      text(goodRound(powerLevels[progress], 1) + "x", x - 2*r, y);
     }
 
     //basic
@@ -160,7 +163,7 @@ class Hero extends Person {
       float speed = dist / (BATTLE_PACE/2);
 
       //hero starts to move towards enemy
-      if (timer < BATTLE_PACE/2) {
+      if (0 <= timer && timer < BATTLE_PACE/2) {
         x += speed;
         currentAction = walkRight;
       }   
@@ -190,7 +193,11 @@ class Hero extends Person {
     //after full time it is Enemy's turn
     if (timer == BATTLE_PACE*1.5) {
       currentAction = idle;
-      turn = ENEMY;
+      if (reverseOrder) {
+        turn = HERO;
+        actionToDo = "";
+        battleEnemy.actionToDo = "";
+      } else turn = ENEMY;
     }
 
     //keep couting until enemy's turn is done and then reset timer
@@ -209,8 +216,13 @@ class Hero extends Person {
       if (miss == 0) battleEnemy.battleText = "miss...";
       else {
         rand = random(40, 60);
-        if (crit == 0) battleEnemy.damage(int(2*rand*multiplier));
-        else battleEnemy.damage(int(rand*multiplier));
+        if (!battleEnemy.anticipating) {
+          if (crit == 0) battleEnemy.damage(int(2*rand*powerLevels[progress]));
+          else battleEnemy.damage(int(rand*powerLevels[progress]));
+        } else {
+          damage(maxHP/5);
+          battleEnemy.anticipating = false;
+        }
       }
     } 
     //- - - - - - - - - - - - - - - - - - - - - -
@@ -221,14 +233,19 @@ class Hero extends Person {
       if (miss == 0) battleEnemy.battleText = "miss...";
       else {
         rand = random(25, 100);
-        if (crit == 0) battleEnemy.damage(int(2*rand*multiplier));
-        else battleEnemy.damage(int(rand*multiplier));
+        if (!battleEnemy.anticipating) {
+          if (crit == 0) battleEnemy.damage(int(2*rand*powerLevels[progress]));
+          else battleEnemy.damage(int(rand*powerLevels[progress]));
+        } else {
+          damage(int(powerLevels[progress]*maxHP/10));
+          battleEnemy.anticipating = false;
+        }
       }
     } 
     //- - - - - - - - - - - - - - - - - - - - - -
     else if (actionToDo.equals("invigorate")) {
-      if (multiplier < 1.2) multiplier = 1.2;
-      else multiplier *= 1.2;
+      if (progress < 6) progress++;
+      else battleText = "power level is maxed";
     } 
     //- - - - - - - - - - - - - - - - - - - - - -
     else if (actionToDo.equals("counter")) {
@@ -241,20 +258,18 @@ class Hero extends Person {
   }//-------------------------------------------------- action --------------------------------------------------
 
   void resetCounter() {
+    if (currentAction != dead) spriteNumber = 0;
     if (countering) {
-      if (currentAction != dead) {
+      currentAction = dead;
+      animate();
+      threshold = 15;
+      if (spriteNumber == 5) {
         damage(maxHP/10);
-        currentAction = dead;
-      } else {
-        animate();
-        threshold = 15;
-        if (spriteNumber == 5) {
-          spriteNumber = 0;
-          count = 0;
-          currentAction = idle;
-          threshold = 5;
-          countering = false;
-        }
+        spriteNumber = 0;
+        count = 0;
+        currentAction = idle;
+        threshold = 5;
+        countering = false;
       }
     }
   }//-------------------------------------------------- resetCounter --------------------------------------------------

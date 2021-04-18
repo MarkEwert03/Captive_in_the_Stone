@@ -6,7 +6,7 @@ void battleSetup() {
   myHero.threshold = 5;
 
   //Enemy
-  battleEnemy = new Enemy(width*3/4, height/4, height/6, 100, 100, hereColor);
+  battleEnemy = new Enemy(width*3/4, height/4, height/6, 500, 500, hereColor);
   battleEnemy.threshold = 5;
 
   //hero animation
@@ -28,12 +28,13 @@ void battle() {
   battleUI();
 
   if (turn == HERO) {
+    reverseOrder = false;
+
     //reset counter
     myHero.resetCounter();
 
     //reset anticipate
-    if (battleEnemy.anticipating) battleEnemy.damage(battleEnemy.maxHP/10); 
-    battleEnemy.anticipating = false;
+    battleEnemy.resetCounter();
   }
 
   //Hero
@@ -41,7 +42,6 @@ void battle() {
   if (!myHero.battleText.isEmpty()) myHero.textFade();
   if (turn == ACTION) {
     myHero.toBattle();
-    battleEnemy.actionToDo = "";
   }
 
   //Enemy
@@ -50,22 +50,23 @@ void battle() {
   if (!battleEnemy.battleText.isEmpty()) battleEnemy.textFade();
   if (turn == ENEMY) {
     battleEnemy.toBattle();
-    myHero.actionToDo = "";
   }
 
-  if (turn != ACTION && battleEnemy.currentHP == 0) {
-    if (battleEnemy.currentHP == 0) {
-      clearedRooms[roomX][roomY] = true;
-      gameSetup();
-      switchRoom();
-      mode = GAME;
-    }
+  if (turn != ACTION && battleEnemy.currentHP == 0){
+    clearedRooms[roomX][roomY] = true;
+    gameSetup();
+    switchRoom();
+    mode = GAME;
   }
 }//-------------------------------------------------- battle --------------------------------------------------
 
 void battleMousePressed() {
   if (turn == HERO && !heroChoice.isEmpty()) {
-    turn = ACTION;
+    timer = -BATTLE_PACE/2;
+    if (battleEnemy.actionToDo.equals("anticipate") && !heroChoice.equals("counter")) {
+      reverseOrder = true;
+      turn = ENEMY;
+    } else turn = ACTION;
     myHero.actionToDo = heroChoice;
   }
 }//-------------------------------------------------- battleMousePressed --------------------------------------------------
