@@ -6,7 +6,7 @@ void battleSetup() {
   myHero.threshold = 5;
 
   //Enemy
-  battleEnemy = new Enemy(width*3/4, height/4, height/6, 50, 50, hereColor);
+  battleEnemy = new Enemy(width*3/4, height/4, height/6, 100, 100, hereColor);
   battleEnemy.threshold = 5;
 
   //hero animation
@@ -18,7 +18,7 @@ void battleSetup() {
   battleEnemy.idle.clear();
   battleEnemy.idle.add(battleEnemy.walkLeft.get(0));
   battleEnemy.currentAction = battleEnemy.idle;
-  
+
   //other
   timer = 0;
   turn = HERO;
@@ -27,6 +27,15 @@ void battleSetup() {
 void battle() {
   battleUI();
 
+  if (turn == HERO) {
+    //reset counter
+    myHero.resetCounter();
+
+    //reset anticipate
+    if (battleEnemy.anticipating) battleEnemy.damage(battleEnemy.maxHP/10); 
+    battleEnemy.anticipating = false;
+  }
+
   //Hero
   myHero.show();
   if (!myHero.battleText.isEmpty()) myHero.textFade();
@@ -34,7 +43,7 @@ void battle() {
     myHero.toBattle();
     battleEnemy.actionToDo = "";
   }
-  
+
   //Enemy
   battleEnemy.show();
   if (battleEnemy.actionToDo.isEmpty()) battleEnemy.decideAction(red);
@@ -43,12 +52,15 @@ void battle() {
     battleEnemy.toBattle();
     myHero.actionToDo = "";
   }
-  
-  if (turn == HERO){
-    myHero.countering = false;
-    battleEnemy.anticipating = false;
+
+  if (turn != ACTION && battleEnemy.currentHP == 0) {
+    if (battleEnemy.currentHP == 0) {
+      clearedRooms[roomX][roomY] = true;
+      gameSetup();
+      switchRoom();
+      mode = GAME;
+    }
   }
-  
 }//-------------------------------------------------- battle --------------------------------------------------
 
 void battleMousePressed() {
@@ -61,7 +73,7 @@ void battleMousePressed() {
 void battleUI() {
   //General
   background(toDark(hereColor));
-  if (turn == HERO) {
+  if (turn == HERO && !(myHero.countering || battleEnemy.anticipating)) {
     stroke(white);
     strokeWeight(5);
     line(width/2, height/2, width/2, height);

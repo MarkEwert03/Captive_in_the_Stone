@@ -172,10 +172,7 @@ class Enemy extends Person {
   void damage(int drop) { 
     super.damage(drop);
     if (currentHP <= 0) {
-      clearedRooms[roomX][roomY] = true;
-      gameSetup();
-      switchRoom();
-      mode = GAME;
+      currentHP = 0;
     }
   }//-------------------------------------------------- damage --------------------------------------------------
 

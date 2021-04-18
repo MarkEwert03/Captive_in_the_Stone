@@ -66,14 +66,12 @@ class Person {
   }//-------------------------------------------------- ~copy constructor~ --------------------------------------------------
 
   void show() {
-    //image that is actually showing
-    noTint();
-    image(currentAction.get(spriteNumber), x, y, 2*r, 2*r);
+
+    if (mode == GAME) noTint();
+    if (this instanceof Enemy) tint(hereColor, 196);
     
-    if (this instanceof Enemy) {
-      tint(hereColor, 196);
-      image(currentAction.get(spriteNumber), x, y, 2*r, 2*r);
-    }
+    //actual image showing
+    image(currentAction.get(spriteNumber), x, y, 2*r, 2*r);
 
     //HP bar
     if (mode == BATTLE || mode == MENU) healthBar(c);
@@ -102,11 +100,11 @@ class Person {
     noStroke();
     fill(toLight(c));
     rect(x - r*0.8, y - r*1.25, 1.6*r, r/2);
-    
+
     //healthbar  
     fill(c);
     rect(x - r*0.8, y - r*1.25, HP_X, r/2);
-    
+
 
     //outer shell
     rectMode(CENTER);
@@ -140,7 +138,7 @@ class Person {
       tempUp    = attackUp;
       tempRight = attackRight;
       tempDown  = attackDown;
-    } else if (action.equals("Charge")){
+    } else if (action.equals("Charge")) {
       tempLeft  = chargeLeft;
       tempUp    = chargeUp;
       tempRight = chargeRight;

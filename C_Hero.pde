@@ -1,6 +1,6 @@
 class Hero extends Person {
   //Hero variables
-  final float speed = dist(0, 0, width, height)/100;
+  final float speed = dist(0, 0, width, height)/200;
   boolean countering = false;
 
   Hero() {
@@ -55,9 +55,9 @@ class Hero extends Person {
     //battle animation
     if (mode == BATTLE) {
       if (turn == HERO || turn == ACTION) {
-        tint(white);
+        noTint();
       } else if (turn == ENEMY) {
-        if (countering) tint(cyan);
+        if (countering) tint(pink);
         else tint(toDark(grey));
       }
     }
@@ -239,6 +239,25 @@ class Hero extends Person {
       print("error! not a valid action");
     }
   }//-------------------------------------------------- action --------------------------------------------------
+
+  void resetCounter() {
+    if (countering) {
+      if (currentAction != dead) {
+        damage(maxHP/10);
+        currentAction = dead;
+      } else {
+        animate();
+        threshold = 15;
+        if (spriteNumber == 5) {
+          spriteNumber = 0;
+          count = 0;
+          currentAction = idle;
+          threshold = 5;
+          countering = false;
+        }
+      }
+    }
+  }//-------------------------------------------------- resetCounter --------------------------------------------------
 
   void damage(int drop) { 
     super.damage(drop);
