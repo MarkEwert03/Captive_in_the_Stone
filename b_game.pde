@@ -4,7 +4,7 @@ void gameSetup() {
   myHero.y = height/2;
   myHero.r = height/12;
   myHero.threshold = 5;
-  
+
   //Hero animation
   myHero.idle.clear();
   myHero.idle.add(myHero.walkDown.get(0));
@@ -57,12 +57,12 @@ void switchRoom() {
   //adding enemies
   enemyList.clear();
   if (clearedRooms[roomX][roomY] == false) {
-    if (west && roomX != pRoomX+1)  enemyList.add(new Enemy(height * wallRatio, height*random(0.25, 0.75), 'w'));
-    if (north && roomY != pRoomY+1) enemyList.add(new Enemy(width*random(0.25, 0.75), height * wallRatio, 'n'));
+    if (west && roomX != pRoomX+1)  enemyList.add(new Enemy(width * wallRatio, height*random(0.25, 0.75), 'w'));
+    if (north && roomY != pRoomY+1) enemyList.add(new Enemy(width*random(0.25, 0.75), height * 2*wallRatio, 'n'));
     if (east && roomX != pRoomX-1)  enemyList.add(new Enemy(width * (1 - wallRatio), height*random(0.25, 0.75), 'e'));
-    if (south && roomY != pRoomY-1) enemyList.add(new Enemy(width*random(0.25, 0.75), height * (1 - wallRatio), 's'));
-    
-    if (roomX == 5 && roomY == 1) enemyList.add(new Enemy(width*random(0.25, 0.75), height * wallRatio, 'n'));
+    if (south && roomY != pRoomY-1) enemyList.add(new Enemy(width*random(0.25, 0.75), height * (1 - 2*wallRatio), 's'));
+
+    //if (roomX == 5 && roomY == 1) enemyList.add(new Enemy(width*random(0.25, 0.75), height * wallRatio, 'n'));
   }
 }//-------------------------------------------------- switchRoom --------------------------------------------------
 
@@ -72,17 +72,57 @@ void drawRoom() {
   //drawing the barriers
   noStroke();
   rectMode(CORNERS);
-  fill(grey);
+  fill(black);
+
+  boolean cleared = clearedRooms[roomX][roomY];
+  //use height instead of width so padding is consistant
+  if (!west) {
+    fill(black);
+    rect(0, 0, height * wallRatio, height);
+    wWall = true;
+  } else if (!cleared && roomX != pRoomX+1) {
+    fill(map.get(roomX-1, roomY));
+    rect(0, 0, height * wallRatio, height);
+    wWall = true;
+  } else wWall = false;
+
+  if (!north) {
+    fill(black);
+    rect(0, 0, width, height * wallRatio);
+    nWall = true;
+  } else if (!cleared && roomY != pRoomY+1){
+    fill(grey);
+    rect(0, 0, width, height * wallRatio);
+    nWall = true;
+  } else nWall = false;
 
   //use height instead of width so padding is consistant
-  if (!west)  rect(0, 0, height * wallRatio, height);
+  if (!east) {
+    fill(black);
+    rect(width - (height * wallRatio), 0, width, height);
+    eWall = true;
+  } else if (!cleared && roomX != pRoomX-1){
+    fill(grey);
+    rect(width - (height * wallRatio), 0, width, height);
+    eWall = true;
+  } else eWall = false;
 
-  if (!north) rect(0, 0, width, height * wallRatio);
-
-  //use height instead of width so padding is consistant
-  if (!east)  rect(width - (height * wallRatio), 0, width, height);
-
-  if (!south) rect(0, height * (1 - wallRatio), width, height);
+  if (!south) {
+    fill(black);
+    rect(0, height * (1 - wallRatio), width, height);
+    sWall = true;
+  } else if (!cleared && roomY != pRoomY-1){
+    fill(grey);
+    rect(0, height * (1 - wallRatio), width, height);
+    sWall = true;
+  } else sWall = false;
+  
+  //corner pieces
+  fill(black);
+  rect(0, 0, height*wallRatio, height*wallRatio);
+  rect(width - (height * wallRatio), 0, width, height*wallRatio);
+  rect(0, height * (1-wallRatio), height*wallRatio, height);
+  rect(width - (height*wallRatio), height * (1-wallRatio), width, height);
   rectMode(CENTER);
 }//-------------------------------------------------- drawRoom --------------------------------------------------
 

@@ -1,6 +1,6 @@
 class Hero extends Person {
   //Hero variables
-  final float speed = dist(0, 0, width, height)/200;
+  final float speed = dist(0, 0, width, height)/250;
   boolean countering = false;
 
   Hero() {
@@ -12,9 +12,9 @@ class Hero extends Person {
     allHeroConstructor();
   }//-------------------------------------------------- ~default constructor~ --------------------------------------------------
 
-  Hero(float x, float y) {
+  Hero(float x, float y, float r) {
     //super
-    super(x, y);
+    super(x, y, r);
     c = pink;
 
     //other
@@ -32,6 +32,9 @@ class Hero extends Person {
   Hero(Hero copyHero) {
     //super
     super(copyHero);
+    x = width/2;
+    y = height/2;
+    r = height/4;
 
     //Hero
     countering = copyHero.countering;
@@ -99,14 +102,14 @@ class Hero extends Person {
 
     //wall collision detection
     //use height instead of width so padding is consistant
-    if (!west && x - r*2/3 <= height * wallRatio) x = height * wallRatio + r*2/3;
+    if (wWall && x - r*2/3 <= height * wallRatio) x = height * wallRatio + r*2/3;
 
-    if (!north && y - r*2/3 <= height * wallRatio) y = height * wallRatio + r*2/3;
+    if (nWall && y - r*2/3 <= height * wallRatio) y = height * wallRatio + r*2/3;
 
     //use height instead of width so padding is consistant
-    if (!east && x + r >= width - (height * wallRatio)) x = width - (height * wallRatio) - r;
+    if (eWall && x + r*2/3 >= width - (height * wallRatio)) x = width - (height * wallRatio) - r*2/3;
 
-    if (!south && y + r >= height * (1 - wallRatio)) y = height * (1 - wallRatio) - r;
+    if (sWall && y + r >= height * (1 - wallRatio)) y = height * (1 - wallRatio) - r;
 
     //checks for paths
     if (west) checkWest();
@@ -121,7 +124,7 @@ class Hero extends Person {
       pRoomY = roomY;
       roomX--;
       switchRoom();
-      x = width * (1 - wallRatio) - r;
+      x = width * (1 - wallRatio);
     }
   }//-------------------------------------------------- checkWest --------------------------------------------------
 
@@ -131,7 +134,7 @@ class Hero extends Person {
       pRoomY = roomY;
       roomY--;
       switchRoom();
-      y = height * (1 - wallRatio) - r;
+      y = height * (1 - wallRatio);
     }
   }//-------------------------------------------------- checkNorth --------------------------------------------------
 
@@ -141,7 +144,7 @@ class Hero extends Person {
       pRoomY = roomY;
       roomX++;
       switchRoom();
-      x = width * wallRatio + r;
+      x = width * wallRatio;
     }
   }//-------------------------------------------------- checkEast --------------------------------------------------
 
@@ -151,7 +154,7 @@ class Hero extends Person {
       pRoomY = roomY;
       roomY++;
       switchRoom();
-      y = height * wallRatio + r;
+      y = height * wallRatio;
     }
   }//-------------------------------------------------- checkSouth --------------------------------------------------
 
@@ -212,34 +215,36 @@ class Hero extends Person {
     if (actionToDo.equals("poised strike")) {
       crit = floor(random(15));
       miss = floor(random(20));
-      if (crit == 0) battleEnemy.battleText = "crit!";
-      if (miss == 0) battleEnemy.battleText = "miss...";
-      else {
-        rand = random(40, 60);
-        if (!battleEnemy.anticipating) {
+      if (!battleEnemy.anticipating) {
+        if (crit == 0) battleEnemy.battleText = "crit!";
+        if (miss == 0) {
+          battleEnemy.battleText = "miss...";
+        } else {
+          rand = random(40, 60);
           if (crit == 0) battleEnemy.damage(int(2*rand*powerLevels[progress]));
           else battleEnemy.damage(int(rand*powerLevels[progress]));
-        } else {
-          damage(maxHP/5);
-          battleEnemy.anticipating = false;
         }
+      } else {
+        damage(int(powerLevels[progress]*maxHP/10));
+        battleEnemy.anticipating = false;
       }
     } 
     //- - - - - - - - - - - - - - - - - - - - - -
     else if (actionToDo.equals("reckless slash")) {
-      crit = floor(random(4));
+      crit = floor(random(2));
       miss = floor(random(4));
-      if (crit == 0) battleEnemy.battleText = "crit!";
-      if (miss == 0) battleEnemy.battleText = "miss...";
-      else {
-        rand = random(25, 100);
-        if (!battleEnemy.anticipating) {
+      if (!battleEnemy.anticipating) {
+        if (crit == 0) battleEnemy.battleText = "crit!";
+        if (miss == 0) {
+          battleEnemy.battleText = "miss...";
+        } else {
+          rand = random(25, 100);
           if (crit == 0) battleEnemy.damage(int(2*rand*powerLevels[progress]));
           else battleEnemy.damage(int(rand*powerLevels[progress]));
-        } else {
-          damage(int(powerLevels[progress]*maxHP/10));
-          battleEnemy.anticipating = false;
         }
+      } else {
+        damage(int(powerLevels[progress]*maxHP/10));
+        battleEnemy.anticipating = false;
       }
     } 
     //- - - - - - - - - - - - - - - - - - - - - -

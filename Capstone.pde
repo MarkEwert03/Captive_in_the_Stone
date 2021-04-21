@@ -15,7 +15,7 @@ void setup() {
   textAlign(CENTER, CENTER);
 
   //Hero
-  myHero = new Hero(width/2, height/2);
+  myHero = new Hero(width/2, height/2, width/12);
 
   //Enemy
   enemyList = new ArrayList<Enemy>();
@@ -60,6 +60,8 @@ void keyPressed() {
   if (key == 'd' || keyCode == RIGHT) rightKey = true;
   if (key == 's' || keyCode == DOWN)  downKey = true;
   if (key == ' ') {
+    if (mode == GAME) mode = MENU;
+    else if (mode == MENU) mode = GAME;
   }
 }//-------------------------------------------------- keyPressed --------------------------------------------------
 
@@ -87,6 +89,6 @@ color toDark(color c) {
 }//-------------------------------------------------- toDark --------------------------------------------------
 
 double goodRound (double value, int precision) {
-    int scale = (int) Math.pow(10, precision);
-    return (double) Math.round(value * scale) / scale;
+  int scale = (int) Math.pow(10, precision);
+  return (double) Math.round(value * scale) / scale;
 }

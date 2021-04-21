@@ -6,7 +6,7 @@ void battleSetup() {
   myHero.threshold = 5;
 
   //Enemy
-  battleEnemy = new Enemy(width*3/4, height/4, height/6, 500, 500, hereColor);
+  battleEnemy = new Enemy(width*3/4, height/4, height/6, hereColor);
   battleEnemy.threshold = 5;
 
   //hero animation
@@ -46,7 +46,7 @@ void battle() {
 
   //Enemy
   battleEnemy.show();
-  if (battleEnemy.actionToDo.isEmpty()) battleEnemy.decideAction(red);
+  if (battleEnemy.actionToDo.isEmpty()) battleEnemy.decideAction();
   if (!battleEnemy.battleText.isEmpty()) battleEnemy.textFade();
   if (turn == ENEMY) {
     battleEnemy.toBattle();

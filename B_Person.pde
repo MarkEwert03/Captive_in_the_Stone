@@ -33,7 +33,7 @@ class Person {
   String battleText = "";
   float alpha = 255;
   float[] powerLevels = new float[]{1, 1.1, 1.3, 1.6, 2.0, 2.5, 3.0};
-  int progress = 5;
+  int progress = 0;
 
   Person() {
     //basic
@@ -41,10 +41,11 @@ class Person {
     y = height/2;
   }//-------------------------------------------------- ~default constructor~ --------------------------------------------------
 
-  Person(float x, float y) {
+  Person(float x, float y, float r) {
     //basic
     this.x = x;
     this.y = y;
+    this.r = r;
   }//-------------------------------------------------- ~coordinate constructor~ --------------------------------------------------
 
   Person(float x, float y, float r, int mHP, int cHP, color c) {
@@ -68,7 +69,7 @@ class Person {
 
   void show() {
 
-    if (mode == GAME) {
+    if (mode == GAME || mode == MENU) {
       noTint();
       if (this instanceof Enemy) tint(hereColor, 196);
     }

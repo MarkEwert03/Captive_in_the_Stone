@@ -4,7 +4,7 @@ class Enemy extends Person {
   Enemy() {
     //super
     super();
-    c = red;
+    c = hereColor;
 
     //animation
     allEnemyConstructor();
@@ -13,8 +13,8 @@ class Enemy extends Person {
   //constructor(s)
   Enemy(float x, float y, int direction) {
     //super
-    super(x, y);
-    c = red;
+    super(x, y, height/12);
+    c = hereColor;
 
     //animation
     allEnemyConstructor();
@@ -26,10 +26,20 @@ class Enemy extends Person {
     else idle.add(dead.get(4));
   }//-------------------------------------------------- ~coordinate constructor~ --------------------------------------------------
 
-  Enemy(float x, float y, float r, int mHP, int cHP, int c) {
+  Enemy(float x, float y, float r, color c) {
     //super
-    super(x, y, r, mHP, cHP, c);
-    c = red;
+    super(x, y, r);
+    this.c = hereColor;
+
+    //health
+    if (c == yellow) maxHP = 100;
+    else if (c == orange || c == green) maxHP = 200;
+    else if (c == cyan) maxHP = 250;
+    else if (c == blue) maxHP = 300;
+    else if (c == navy) maxHP = 400;
+    else if (c == darkGrey) maxHP = 500;
+    else maxHP = 10;
+    currentHP = maxHP;
 
     //animation
     allEnemyConstructor();
@@ -72,15 +82,33 @@ class Enemy extends Person {
     super.show();
   }//-------------------------------------------------- show --------------------------------------------------
 
-  void decideAction(color roomC) {
+  void decideAction() {
     //0 = unruly stab
     //1 = barbaric thrust
     //2 = enrage
     //3 = anticipate
     int[] choices;
+    int chosenAction;
 
-    choices = new int[]{0, 1, 2, 3};
-    int chosenAction = choices[floor(random(choices.length))];
+    if (this.c == yellow) {
+      chosenAction = 1;
+    } else if (this.c == orange) {
+      choices = new int[]{0, 3, 3, 3, 3, 3, 3, 3, 3, 3};
+      chosenAction = choices[floor(random(choices.length))];
+    } else if (this.c == green) {
+      if (progress < 6) chosenAction = 2;
+      else {
+        choices = new int[]{0, 1};
+        chosenAction = choices[floor(random(choices.length))];
+      }
+    } else if (this.c == cyan || this.c == blue || this.c == navy) {
+      choices = new int[]{0, 1, 2, 3};
+      chosenAction = choices[floor(random(choices.length))];
+    } else chosenAction = 0;
+
+
+
+
     if (chosenAction == 0) actionToDo = "unruly stab";
     else if (chosenAction == 1) actionToDo = "barbaric thrust";
     else if (chosenAction == 2) actionToDo = "enrage";
@@ -143,34 +171,35 @@ class Enemy extends Person {
     if (actionToDo.equals("unruly stab")) {
       crit = floor(random(20));
       miss = floor(random(15));
-      if (crit == 0) myHero.battleText = "crit...";
-      if (miss == 0) myHero.battleText = "miss!";
-      else {
-        rand = random(40, 60);
-        if (!myHero.countering) {
-          if (crit == 0) myHero.damage(int(2*rand*powerLevels[progress]));
-        else myHero.damage(int(rand*powerLevels[progress]));
+      if (!myHero.countering) {
+        if (crit == 0) myHero.battleText = "crit...";
+        if (miss == 0) {
+          myHero.battleText = "miss!";
         } else {
-          damage(maxHP/10);
-          myHero.countering = false;
+          rand = random(40, 60);
+          if (crit == 0) myHero.damage(int(2*rand*powerLevels[progress]));
+          else myHero.damage(int(rand*powerLevels[progress]));
         }
+      } else {
+        damage(int(powerLevels[progress]*maxHP/10));
+        myHero.countering = false;
       }
     }
     //- - - - - - - - - - - - - - - - - - - -
     else if (actionToDo.equals("barbaric thrust")) {
       crit = floor(random(6));
       miss = floor(random(4));
-      if (crit == 0) myHero.battleText = "crit...";
-      if (miss == 0) myHero.battleText = "miss!";
-      else {
-        rand = random(25, 75);
-        if (!myHero.countering) {
+      if (!myHero.countering) {
+        if (crit == 0) myHero.battleText = "crit...";
+        if (miss == 0) myHero.battleText = "miss!";
+        else {
+          rand = random(25, 75);
           if (crit == 0) myHero.damage(int(2*rand*powerLevels[progress]));
-        else myHero.damage(int(rand*powerLevels[progress]));
-        } else {
-          damage(int(powerLevels[progress]*maxHP/10));
-          myHero.countering = false;
+          else myHero.damage(int(rand*powerLevels[progress]));
         }
+      } else {
+        damage(int(powerLevels[progress]*maxHP/10));
+        myHero.countering = false;
       }
     }
     // - - - - - - - - - - - - - - - - - - - - 

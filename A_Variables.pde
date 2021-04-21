@@ -26,7 +26,8 @@ boolean[][] clearedRooms;
 int roomX, roomY; //xy coordinates of map's pixels
 int pRoomX, pRoomY; //previous xy coordinates of the map's pixels
 boolean west, north, east, south; //indicates if each direction is avalible to go to for the next room
-float wallRatio = 1.0/8;
+boolean wWall, nWall, eWall, sWall;
+float wallRatio = 1.0/8.0;
 
 //battle
 final int HERO = 0;
