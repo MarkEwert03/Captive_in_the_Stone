@@ -24,9 +24,14 @@ void game() {
     e.show();
     if (dist(myHero.x, myHero.y, e.x, e.y) < myHero.r + e.r) {
       battleSetup();
+      //gameTheme.close();
       mode = BATTLE;
     }
   }
+  
+  //music
+  //if (!gameTheme.isPlaying()) gameTheme.rewind();
+  //gameTheme.play();
 }//-------------------------------------------------- game --------------------------------------------------
 
 void gameMousePressed() {
@@ -67,7 +72,13 @@ void switchRoom() {
 }//-------------------------------------------------- switchRoom --------------------------------------------------
 
 void drawRoom() {
-  background(hereColor);
+  background(white);
+  tint(hereColor);
+  for (int w = 140; w < width; w += 280){
+    for (int h = 140; h < height; h += 280){
+      image(floor, w, h);
+    }
+  }
 
   //drawing the barriers
   noStroke();
@@ -76,47 +87,52 @@ void drawRoom() {
 
   boolean cleared = clearedRooms[roomX][roomY];
   //use height instead of width so padding is consistant
+
+  //left wall
   if (!west) {
     fill(black);
     rect(0, 0, height * wallRatio, height);
     wWall = true;
   } else if (!cleared && roomX != pRoomX+1) {
-    fill(map.get(roomX-1, roomY));
+    fill(toDark(map.get(roomX-1, roomY)));
     rect(0, 0, height * wallRatio, height);
     wWall = true;
   } else wWall = false;
 
+  //top wall
   if (!north) {
     fill(black);
     rect(0, 0, width, height * wallRatio);
     nWall = true;
-  } else if (!cleared && roomY != pRoomY+1){
-    fill(grey);
+  } else if (!cleared && roomY != pRoomY+1) {
+    fill(toDark(map.get(roomX, roomY-1)));
     rect(0, 0, width, height * wallRatio);
     nWall = true;
   } else nWall = false;
 
   //use height instead of width so padding is consistant
+  //right wall
   if (!east) {
     fill(black);
     rect(width - (height * wallRatio), 0, width, height);
     eWall = true;
-  } else if (!cleared && roomX != pRoomX-1){
-    fill(grey);
+  } else if (!cleared && roomX != pRoomX-1) {
+    fill(toDark(map.get(roomX+1, roomY)));
     rect(width - (height * wallRatio), 0, width, height);
     eWall = true;
   } else eWall = false;
 
+  //bottom wall
   if (!south) {
     fill(black);
     rect(0, height * (1 - wallRatio), width, height);
     sWall = true;
-  } else if (!cleared && roomY != pRoomY-1){
-    fill(grey);
+  } else if (!cleared && roomY != pRoomY-1) {
+    fill(toDark(map.get(roomX, roomY+1)));
     rect(0, height * (1 - wallRatio), width, height);
     sWall = true;
   } else sWall = false;
-  
+
   //corner pieces
   fill(black);
   rect(0, 0, height*wallRatio, height*wallRatio);

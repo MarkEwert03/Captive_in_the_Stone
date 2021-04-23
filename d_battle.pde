@@ -52,12 +52,17 @@ void battle() {
     battleEnemy.toBattle();
   }
 
-  if (turn != ACTION && battleEnemy.currentHP == 0){
+  if (turn != ACTION && battleEnemy.currentHP == 0) {
     clearedRooms[roomX][roomY] = true;
     gameSetup();
     switchRoom();
+    //battleTheme.close();
     mode = GAME;
   }
+
+  //music
+  //if (!battleTheme.isPlaying()) battleTheme.rewind();
+  //battleTheme.play();
 }//-------------------------------------------------- battle --------------------------------------------------
 
 void battleMousePressed() {

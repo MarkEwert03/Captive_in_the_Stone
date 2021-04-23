@@ -1,6 +1,6 @@
 void menu() {
   //general
-  background(toDark(green));
+  background(toLight(pink));
   
   Hero menuHero = new Hero(myHero);
   menuHero.show();

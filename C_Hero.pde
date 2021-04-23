@@ -1,6 +1,6 @@
 class Hero extends Person {
   //Hero variables
-  final float speed = dist(0, 0, width, height)/250;
+  final float speed = dist(0, 0, width, height)/150;
   boolean countering = false;
 
   Hero() {
@@ -74,6 +74,8 @@ class Hero extends Person {
   }//-------------------------------------------------- show --------------------------------------------------
 
   void act() {
+    if (hereColor == pink) currentHP = maxHP;
+    
     //movement
     if (leftKey || upKey || rightKey || downKey) idle.clear();
     if (leftKey) {

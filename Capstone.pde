@@ -19,10 +19,21 @@ void setup() {
 
   //Enemy
   enemyList = new ArrayList<Enemy>();
+  
+  //sound
+  minim       = new Minim(this);
+  introTheme  = minim.loadFile("Music/Intro Theme.wav");
+  gameTheme   = minim.loadFile("Music/Sound Effect.mp3");
+  battleTheme = minim.loadFile("Music/Battle Theme.mp3");
+  loseTheme   = minim.loadFile("Music/Intro Theme.wav");
+  winTheme    = minim.loadFile("Music/Intro Theme.wav");
 
   //image
   imageMode(CENTER);
-  map = loadImage("Map.png");
+  imageY = height*1.5;
+  introText = loadImage("Images/Intro Text.png");
+  map = loadImage("Images/Map.png");
+  floor = loadImage("Images/Floor.png");
   clearedRooms = new boolean[map.width][map.height];
   for (int x = 0; x < map.width; x++) {
     for (int y = 0; y < map.height; y++) {
@@ -33,6 +44,7 @@ void setup() {
   roomX = 3;
   roomY = 1;
   switchRoom();
+ 
 }//-------------------------------------------------- setup --------------------------------------------------
 
 void draw() {

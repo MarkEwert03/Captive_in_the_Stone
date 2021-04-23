@@ -71,7 +71,7 @@ class Person {
 
     if (mode == GAME || mode == MENU) {
       noTint();
-      if (this instanceof Enemy) tint(hereColor, 196);
+      //if (this instanceof Enemy) tint(hereColor, 196);
     }
 
     //actual image showing
@@ -103,18 +103,18 @@ class Person {
     rectMode(CORNER);
     noStroke();
     fill(toLight(c));
-    rect(x - r*0.8, y - r*1.25, 1.6*r, r/2);
+    rect(x - r*0.8, y - r*1.25, 1.6*r, r/2, 10);
 
     //healthbar  
     fill(c);
-    rect(x - r*0.8, y - r*1.25, HP_X, r/2);
+    rect(x - r*0.8, y - r*1.25, HP_X, r/2, 10);
 
 
     //outer shell
     rectMode(CENTER);
-    stroke(2);
+    
     noFill();
-    rect(x, y - r, 1.6*r, r/2);
+    rect(x, y - r, 1.6*r, r/2, 10);
 
     //text amount
     fill(toDark(c));

@@ -1,4 +1,10 @@
 import java.util.*;
+import ddf.minim.*;
+import ddf.minim.analysis.*;
+import ddf.minim.effects.*;
+import ddf.minim.signals.*;
+import ddf.minim.spi.*;
+import ddf.minim.ugens.*;
 
 //mode framework
 final int INTRO  = 0;
@@ -20,8 +26,12 @@ Enemy battleEnemy;
 //keyboard
 boolean leftKey, upKey, rightKey, downKey, spaceKey;
 
-//map
-PImage map;
+//intro
+PImage introText;
+float imageY;
+
+//game
+PImage map, floor;
 boolean[][] clearedRooms;
 int roomX, roomY; //xy coordinates of map's pixels
 int pRoomX, pRoomY; //previous xy coordinates of the map's pixels
@@ -40,6 +50,14 @@ boolean reverseOrder = false;
 
 //other
 boolean transition = false;
+
+//sound
+Minim minim;
+AudioPlayer introTheme;
+AudioPlayer gameTheme;
+AudioPlayer battleTheme;
+AudioPlayer loseTheme;
+AudioPlayer winTheme;
 
 //colour pallete
 final color red             = #df2020;

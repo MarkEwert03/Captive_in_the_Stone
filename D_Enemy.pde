@@ -91,9 +91,9 @@ class Enemy extends Person {
     int chosenAction;
 
     if (this.c == yellow) {
-      chosenAction = 1;
+      chosenAction = 3;
     } else if (this.c == orange) {
-      choices = new int[]{0, 3, 3, 3, 3, 3, 3, 3, 3, 3};
+      choices = new int[]{0, 1, 3, 3, 3};
       chosenAction = choices[floor(random(choices.length))];
     } else if (this.c == green) {
       if (progress < 6) chosenAction = 2;
