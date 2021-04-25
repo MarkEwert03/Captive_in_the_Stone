@@ -32,7 +32,7 @@ class Person {
   String actionToDo = "";
   String battleText = "";
   float alpha = 255;
-  float[] powerLevels = new float[]{1, 1.1, 1.3, 1.6, 2.0, 2.5, 3.0};
+  final float[] powerLevels = new float[]{1, 1.1, 1.3, 1.6, 2.0, 2.5, 3.0};
   int progress = 0;
 
   Person() {
@@ -75,6 +75,7 @@ class Person {
     }
 
     //actual image showing
+    imageMode(CENTER);
     image(currentAction.get(spriteNumber), x, y, 2*r, 2*r);
 
     //HP bar
@@ -112,8 +113,11 @@ class Person {
 
     //outer shell
     rectMode(CENTER);
-    
     noFill();
+    if (mode == MENU) {
+      stroke(toDark(pink));
+      strokeWeight(2);
+    }
     rect(x, y - r, 1.6*r, r/2, 10);
 
     //text amount

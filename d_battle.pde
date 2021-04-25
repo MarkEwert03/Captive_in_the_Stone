@@ -19,6 +19,9 @@ void battleSetup() {
   battleEnemy.idle.add(battleEnemy.walkLeft.get(0));
   battleEnemy.currentAction = battleEnemy.idle;
 
+  //music
+  battleTheme.rewind();
+
   //other
   timer = 0;
   turn = HERO;
@@ -28,7 +31,10 @@ void battle() {
   battleUI();
 
   if (turn == HERO) {
+    //other
     reverseOrder = false;
+    myHero.threshold = BATTLE_PACE/20;
+    battleEnemy.threshold = BATTLE_PACE/20;
 
     //reset counter
     myHero.resetCounter();
@@ -56,13 +62,13 @@ void battle() {
     clearedRooms[roomX][roomY] = true;
     gameSetup();
     switchRoom();
-    //battleTheme.close();
+    battleTheme.pause();
     mode = GAME;
   }
 
   //music
-  //if (!battleTheme.isPlaying()) battleTheme.rewind();
-  //battleTheme.play();
+  if (battleTheme.position() >= battleTheme.length() || !battleTheme.isPlaying()) battleTheme.rewind();
+  if (mode == BATTLE) battleTheme.play();
 }//-------------------------------------------------- battle --------------------------------------------------
 
 void battleMousePressed() {
@@ -104,7 +110,7 @@ void battleUI() {
     rectMode(CORNER);
     rect(0, height/2, width, height/2);
     fill(black);
-    textSize(96);
+    textSize(width/20);
     if (turn == ACTION) text("Hero uses " + myHero.actionToDo + "!", width/2, height*3/4);
     else if (turn == ENEMY) text("Opposing enemy uses " + battleEnemy.actionToDo, width/2, height*3/4);
   }

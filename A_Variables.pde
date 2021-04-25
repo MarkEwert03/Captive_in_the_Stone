@@ -30,8 +30,10 @@ boolean leftKey, upKey, rightKey, downKey, spaceKey;
 PImage introText;
 float imageY;
 
+//images
+PImage map, floor, wall;
+
 //game
-PImage map, floor;
 boolean[][] clearedRooms;
 int roomX, roomY; //xy coordinates of map's pixels
 int pRoomX, pRoomY; //previous xy coordinates of the map's pixels
@@ -43,7 +45,7 @@ float wallRatio = 1.0/8.0;
 final int HERO = 0;
 final int ACTION = 1;
 final int ENEMY = 2;
-final int BATTLE_PACE = 60;
+final int BATTLE_PACE = 120;
 int turn = HERO;
 int timer = 0;
 boolean reverseOrder = false;
@@ -55,6 +57,7 @@ boolean transition = false;
 Minim minim;
 AudioPlayer introTheme;
 AudioPlayer gameTheme;
+AudioPlayer menuTheme;
 AudioPlayer battleTheme;
 AudioPlayer loseTheme;
 AudioPlayer winTheme;

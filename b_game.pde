@@ -9,6 +9,9 @@ void gameSetup() {
   myHero.idle.clear();
   myHero.idle.add(myHero.walkDown.get(0));
   myHero.currentAction = myHero.idle;
+
+  //music
+  gameTheme.rewind();
 }
 
 void game() {
@@ -19,19 +22,19 @@ void game() {
   myHero.show();
   myHero.act();
 
+  //music
+  if (gameTheme.position() == gameTheme.length()) gameTheme.rewind();
+  gameTheme.play();
+
   //Enemy
   for (Enemy e : enemyList) {
     e.show();
     if (dist(myHero.x, myHero.y, e.x, e.y) < myHero.r + e.r) {
+      gameTheme.pause();
       battleSetup();
-      //gameTheme.close();
       mode = BATTLE;
     }
   }
-  
-  //music
-  //if (!gameTheme.isPlaying()) gameTheme.rewind();
-  //gameTheme.play();
 }//-------------------------------------------------- game --------------------------------------------------
 
 void gameMousePressed() {
@@ -74,38 +77,48 @@ void switchRoom() {
 void drawRoom() {
   background(white);
   tint(hereColor);
-  for (int w = 140; w < width; w += 280){
-    for (int h = 140; h < height; h += 280){
+  imageMode(CENTER);
+  for (int w = 140; w < width; w += 280) {
+    for (int h = 140; h < height; h += 280) {
       image(floor, w, h);
+    }
+  }
+
+  imageMode(CORNER);
+  for (int w = 0; w < width; w += wall.width/2) {
+    for (int h = 0; h < height; h += wall.height/2) {
+      if (w == 0 && wWall) image(wall, w, h);
+      else if (h == 0 && nWall) image(wall, w, h);
+      else if (w >= width - (height * wallRatio) && eWall) image(wall, w - wall.width/6, h);
+      else if (h >= height * (1 - wallRatio) && sWall) image(wall, w, h - wall.height/2.5);
     }
   }
 
   //drawing the barriers
   noStroke();
   rectMode(CORNERS);
-  fill(black);
 
   boolean cleared = clearedRooms[roomX][roomY];
   //use height instead of width so padding is consistant
 
   //left wall
   if (!west) {
-    fill(black);
+    fill(black, 192);
     rect(0, 0, height * wallRatio, height);
     wWall = true;
   } else if (!cleared && roomX != pRoomX+1) {
-    fill(toDark(map.get(roomX-1, roomY)));
+    fill(toDark(map.get(roomX-1, roomY)), 128);
     rect(0, 0, height * wallRatio, height);
     wWall = true;
   } else wWall = false;
 
   //top wall
   if (!north) {
-    fill(black);
+    fill(black, 192);
     rect(0, 0, width, height * wallRatio);
     nWall = true;
   } else if (!cleared && roomY != pRoomY+1) {
-    fill(toDark(map.get(roomX, roomY-1)));
+    fill(toDark(map.get(roomX, roomY-1)), 128);
     rect(0, 0, width, height * wallRatio);
     nWall = true;
   } else nWall = false;
@@ -113,22 +126,22 @@ void drawRoom() {
   //use height instead of width so padding is consistant
   //right wall
   if (!east) {
-    fill(black);
+    fill(black, 192);
     rect(width - (height * wallRatio), 0, width, height);
     eWall = true;
   } else if (!cleared && roomX != pRoomX-1) {
-    fill(toDark(map.get(roomX+1, roomY)));
+    fill(toDark(map.get(roomX+1, roomY)), 128);
     rect(width - (height * wallRatio), 0, width, height);
     eWall = true;
   } else eWall = false;
 
   //bottom wall
   if (!south) {
-    fill(black);
+    fill(black, 192);
     rect(0, height * (1 - wallRatio), width, height);
     sWall = true;
   } else if (!cleared && roomY != pRoomY-1) {
-    fill(toDark(map.get(roomX, roomY+1)));
+    fill(toDark(map.get(roomX, roomY+1)), 128);
     rect(0, height * (1 - wallRatio), width, height);
     sWall = true;
   } else sWall = false;

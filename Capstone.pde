@@ -19,21 +19,29 @@ void setup() {
 
   //Enemy
   enemyList = new ArrayList<Enemy>();
-  
+
   //sound
   minim       = new Minim(this);
   introTheme  = minim.loadFile("Music/Intro Theme.wav");
-  gameTheme   = minim.loadFile("Music/Sound Effect.mp3");
+  gameTheme   = minim.loadFile("Music/Game Theme.mp3"); 
   battleTheme = minim.loadFile("Music/Battle Theme.mp3");
-  loseTheme   = minim.loadFile("Music/Intro Theme.wav");
-  winTheme    = minim.loadFile("Music/Intro Theme.wav");
+  battleTheme.setGain(-20);
+  loseTheme   = minim.loadFile("Music/Lose Theme.mp3");
+  loseTheme.setGain(-20);
+  winTheme    = minim.loadFile("Music/Win Theme.mp3");
+  winTheme.setGain(-20);
 
   //image
   imageMode(CENTER);
   imageY = height*1.5;
   introText = loadImage("Images/Intro Text.png");
-  map = loadImage("Images/Map.png");
-  floor = loadImage("Images/Floor.png");
+  introText.resize(width, height);
+  map       = loadImage("Images/Map.png");
+  floor     = loadImage("Images/Stone.png");
+  wall      = loadImage("Images/Brick.png");
+  wall.resize(int(height*wallRatio),int(height*wallRatio));
+  
+  //map
   clearedRooms = new boolean[map.width][map.height];
   for (int x = 0; x < map.width; x++) {
     for (int y = 0; y < map.height; y++) {
@@ -44,7 +52,6 @@ void setup() {
   roomX = 3;
   roomY = 1;
   switchRoom();
- 
 }//-------------------------------------------------- setup --------------------------------------------------
 
 void draw() {
@@ -72,8 +79,13 @@ void keyPressed() {
   if (key == 'd' || keyCode == RIGHT) rightKey = true;
   if (key == 's' || keyCode == DOWN)  downKey = true;
   if (key == ' ') {
-    if (mode == GAME) mode = MENU;
-    else if (mode == MENU) mode = GAME;
+    if (mode == GAME) {
+      gameTheme.setGain(-20);
+      mode = MENU;
+    } else if (mode == MENU) {
+      gameTheme.setGain(0);
+      mode = GAME;
+    }
   }
 }//-------------------------------------------------- keyPressed --------------------------------------------------
 

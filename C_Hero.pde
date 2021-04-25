@@ -78,22 +78,22 @@ class Hero extends Person {
     
     //movement
     if (leftKey || upKey || rightKey || downKey) idle.clear();
-    if (leftKey) {
+    if (leftKey && !rightKey) {
       x -= speed;
       currentAction = walkLeft;
       idle.add(walkLeft.get(spriteNumber));
     }
-    if (upKey) {
+    if (upKey && !downKey) {
       y -= speed;
       currentAction = walkUp;
       idle.add(walkUp.get(spriteNumber));
     }
-    if (rightKey) {
+    if (rightKey && !leftKey) {
       x += speed;
       currentAction = walkRight;
       idle.add(walkRight.get(spriteNumber));
     }
-    if (downKey) {
+    if (downKey && !upKey) {
       y += speed;
       currentAction = walkDown;
       idle.add(walkDown.get(spriteNumber));
@@ -188,6 +188,7 @@ class Hero extends Person {
     } else {
       //invigorate or counter
       if (timer == 0) {
+        myHero.threshold = BATTLE_PACE/10;
         if (actionToDo.equals("invigorate")) currentAction = chargeDown;
         else if (actionToDo.equals("counter")) currentAction = chargeRight;
         animate();
@@ -227,7 +228,7 @@ class Hero extends Person {
           else battleEnemy.damage(int(rand*powerLevels[progress]));
         }
       } else {
-        damage(int(powerLevels[progress]*maxHP/10));
+        damage(int(powerLevels[battleEnemy.progress]*maxHP/10));
         battleEnemy.anticipating = false;
       }
     } 
@@ -245,7 +246,7 @@ class Hero extends Person {
           else battleEnemy.damage(int(rand*powerLevels[progress]));
         }
       } else {
-        damage(int(powerLevels[progress]*maxHP/10));
+        damage(int(powerLevels[battleEnemy.progress]*maxHP/10));
         battleEnemy.anticipating = false;
       }
     } 
@@ -283,6 +284,9 @@ class Hero extends Person {
 
   void damage(int drop) { 
     super.damage(drop);
-    if (currentHP <= 0) mode = LOSE;
+    if (currentHP <= 0) {
+      battleTheme.close();
+      mode = LOSE;
+    }
   }//-------------------------------------------------- damage --------------------------------------------------
 }//-------------------------------------------------- Hero --------------------------------------------------

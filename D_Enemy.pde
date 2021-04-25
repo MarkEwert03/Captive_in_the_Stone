@@ -91,7 +91,7 @@ class Enemy extends Person {
     int chosenAction;
 
     if (this.c == yellow) {
-      chosenAction = 3;
+      chosenAction = 0;
     } else if (this.c == orange) {
       choices = new int[]{0, 1, 3, 3, 3};
       chosenAction = choices[floor(random(choices.length))];
@@ -141,6 +141,7 @@ class Enemy extends Person {
     } else {
       //enrage or anticipate
       if (timer == 0) {
+        battleEnemy.threshold = BATTLE_PACE/10;
         if (actionToDo.equals("enrage")) currentAction = chargeDown;
         else if (actionToDo.equals("anticipate")) currentAction = chargeLeft;
         animate();
@@ -181,7 +182,7 @@ class Enemy extends Person {
           else myHero.damage(int(rand*powerLevels[progress]));
         }
       } else {
-        damage(int(powerLevels[progress]*maxHP/10));
+        damage(int(powerLevels[myHero.progress]*maxHP/10));
         myHero.countering = false;
       }
     }
@@ -198,7 +199,7 @@ class Enemy extends Person {
           else myHero.damage(int(rand*powerLevels[progress]));
         }
       } else {
-        damage(int(powerLevels[progress]*maxHP/10));
+        damage(int(powerLevels[myHero.progress]*maxHP/10));
         myHero.countering = false;
       }
     }
