@@ -75,7 +75,7 @@ class Hero extends Person {
 
   void act() {
     if (hereColor == pink) currentHP = maxHP;
-    
+
     //movement
     if (leftKey || upKey || rightKey || downKey) idle.clear();
     if (leftKey && !rightKey) {
@@ -188,7 +188,7 @@ class Hero extends Person {
     } else {
       //invigorate or counter
       if (timer == 0) {
-        myHero.threshold = BATTLE_PACE/10;
+        myHero.threshold = BATTLE_PACE/15;
         if (actionToDo.equals("invigorate")) currentAction = chargeDown;
         else if (actionToDo.equals("counter")) currentAction = chargeRight;
         animate();
@@ -266,12 +266,15 @@ class Hero extends Person {
   }//-------------------------------------------------- action --------------------------------------------------
 
   void resetCounter() {
-    if (currentAction != dead) spriteNumber = 0;
-    if (countering) {
+    println("sprite: " + spriteNumber + " - count: " + count);
+    if (currentAction != dead) {
+      spriteNumber = 0;
+      spriteNumber = 0;
+      threshold = 10;
       currentAction = dead;
-      animate();
-      threshold = 15;
-      if (spriteNumber == 5) {
+    }
+    if (countering) {
+      if (spriteNumber >= 5) {
         damage(maxHP/10);
         spriteNumber = 0;
         count = 0;

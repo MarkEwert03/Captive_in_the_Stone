@@ -91,7 +91,7 @@ class Enemy extends Person {
     int chosenAction;
 
     if (this.c == yellow) {
-      chosenAction = 0;
+      chosenAction = 3;
     } else if (this.c == orange) {
       choices = new int[]{0, 1, 3, 3, 3};
       chosenAction = choices[floor(random(choices.length))];
@@ -141,7 +141,7 @@ class Enemy extends Person {
     } else {
       //enrage or anticipate
       if (timer == 0) {
-        battleEnemy.threshold = BATTLE_PACE/10;
+        battleEnemy.threshold = BATTLE_PACE/15;
         if (actionToDo.equals("enrage")) currentAction = chargeDown;
         else if (actionToDo.equals("anticipate")) currentAction = chargeLeft;
         animate();
@@ -219,12 +219,14 @@ class Enemy extends Person {
   }//-------------------------------------------------- action --------------------------------------------------
 
   void resetCounter() {
-    if (currentAction != dead) spriteNumber = 0;
-    if (anticipating) {
+    if (currentAction != dead) {
+      spriteNumber = 0;
+      spriteNumber = 0;
+      threshold = 10;
       currentAction = dead;
-      animate();
-      threshold = 15;
-      if (spriteNumber == 5) {
+    }
+    if (anticipating) {
+      if (spriteNumber >= 5) {
         damage(maxHP/10);
         spriteNumber = 0;
         count = 0;

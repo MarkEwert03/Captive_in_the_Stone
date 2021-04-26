@@ -84,7 +84,7 @@ class Person {
 
   void animate() {
     //animating sprite
-    //continue conting until count equals threshold (5) and then go to next sprite
+    //continue conting until count equals threshold and then go to next sprite
     count++; 
     if (count >= threshold) {
       count = 0;

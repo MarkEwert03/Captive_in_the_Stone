@@ -33,14 +33,14 @@ void battle() {
   if (turn == HERO) {
     //other
     reverseOrder = false;
-    myHero.threshold = BATTLE_PACE/20;
-    battleEnemy.threshold = BATTLE_PACE/20;
 
     //reset counter
-    myHero.resetCounter();
+    if (myHero.countering) myHero.resetCounter();
+    else myHero.threshold = BATTLE_PACE/20;
 
     //reset anticipate
-    battleEnemy.resetCounter();
+    if (battleEnemy.anticipating) battleEnemy.resetCounter();
+    else battleEnemy.threshold = BATTLE_PACE/20;
   }
 
   //Hero
