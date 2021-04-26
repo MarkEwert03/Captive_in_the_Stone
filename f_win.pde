@@ -1,14 +1,14 @@
 void win() {
   //general
-  background(toDark(violet));
-  fill(white);
-  textSize(256);
-  text("win", width/2, height/2);
-  
-  //music
+  background(toLight(yellow));
+  noTint();
+  image(winText, width/2, imageY);
+  //good speed is 0.5 pixels/second
+  if (imageY > height/2) imageY -= 0.5;
+  else imageY = height/2;
+
   winTheme.play();
 }//-------------------------------------------------- win --------------------------------------------------
 
 void winMousePressed() {
-  
 }//-------------------------------------------------- winMousePressed --------------------------------------------------

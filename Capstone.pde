@@ -26,21 +26,30 @@ void setup() {
   gameTheme   = minim.loadFile("Music/Game Theme.mp3"); 
   battleTheme = minim.loadFile("Music/Battle Theme.mp3");
   battleTheme.setGain(-20);
+  bossTheme = minim.loadFile("Music/Boss Theme.mp3");
+  bossTheme.setGain(-20);
   loseTheme   = minim.loadFile("Music/Lose Theme.mp3");
-  loseTheme.setGain(-20);
+  loseTheme.setGain(-10);
   winTheme    = minim.loadFile("Music/Win Theme.mp3");
-  winTheme.setGain(-20);
 
-  //image
+  //text images
   imageMode(CENTER);
   imageY = height*1.5;
   introText = loadImage("Images/Intro Text.png");
   introText.resize(width, height);
+  loseText  = loadImage("Images/Lose Text.png");
+  loseText.resize(width, height);
+  bossText  = loadImage("Images/Boss Text.png");
+  bossText.resize(width, height);
+  winText   = loadImage("Images/Win Text.png");
+  winText.resize(width, height);
+  
+  //other images
   map       = loadImage("Images/Map.png");
   floor     = loadImage("Images/Stone.png");
   wall      = loadImage("Images/Brick.png");
-  wall.resize(int(height*wallRatio),int(height*wallRatio));
-  
+  wall.resize(int(height*wallRatio), int(height*wallRatio));
+
   //map
   clearedRooms = new boolean[map.width][map.height];
   for (int x = 0; x < map.width; x++) {
@@ -49,6 +58,8 @@ void setup() {
       if (roomC == pink || roomC == violet) clearedRooms[x][y] = true;
     }
   }
+
+  //default values are (3, 1) - before boss values are (5, 3)
   roomX = 3;
   roomY = 1;
   switchRoom();

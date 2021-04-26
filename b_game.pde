@@ -15,6 +15,9 @@ void gameSetup() {
 }
 
 void game() {
+  //boss check
+  if (roomX == 5 && roomY == 2) bossTime = true;
+  
   //room
   drawRoom();
 
@@ -70,7 +73,7 @@ void switchRoom() {
     if (east && roomX != pRoomX-1)  enemyList.add(new Enemy(width * (1 - wallRatio), height*random(0.25, 0.75), 'e'));
     if (south && roomY != pRoomY-1) enemyList.add(new Enemy(width*random(0.25, 0.75), height * (1 - 2*wallRatio), 's'));
 
-    //if (roomX == 5 && roomY == 1) enemyList.add(new Enemy(width*random(0.25, 0.75), height * wallRatio, 'n'));
+    if (roomX == 5 && roomY == 2) enemyList.add(new Enemy(width/2, height*2*wallRatio, width/10, hereColor));
   }
 }//-------------------------------------------------- switchRoom --------------------------------------------------
 
@@ -106,7 +109,7 @@ void drawRoom() {
     fill(black, 192);
     rect(0, 0, height * wallRatio, height);
     wWall = true;
-  } else if (!cleared && roomX != pRoomX+1) {
+  } else if (!cleared && roomX != pRoomX+1 || roomX == 5) {
     fill(toDark(map.get(roomX-1, roomY)), 128);
     rect(0, 0, height * wallRatio, height);
     wWall = true;

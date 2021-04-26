@@ -65,7 +65,7 @@ class Hero extends Person {
       }
       fill(black);
       textSize(64);
-      text(goodRound(powerLevels[progress], 1) + "x", x - 2*r, y);
+      text(goodRound(powerLevels[progress], 1) + "x", x - 1.5*r, y);
     }
 
     //basic
@@ -266,7 +266,6 @@ class Hero extends Person {
   }//-------------------------------------------------- action --------------------------------------------------
 
   void resetCounter() {
-    println("sprite: " + spriteNumber + " - count: " + count);
     if (currentAction != dead) {
       spriteNumber = 0;
       spriteNumber = 0;
@@ -285,11 +284,4 @@ class Hero extends Person {
     }
   }//-------------------------------------------------- resetCounter --------------------------------------------------
 
-  void damage(int drop) { 
-    super.damage(drop);
-    if (currentHP <= 0) {
-      battleTheme.close();
-      mode = LOSE;
-    }
-  }//-------------------------------------------------- damage --------------------------------------------------
 }//-------------------------------------------------- Hero --------------------------------------------------

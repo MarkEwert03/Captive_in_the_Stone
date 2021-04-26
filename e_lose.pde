@@ -1,11 +1,13 @@
 void lose() {
   //general
-  background(toDark(navy));
-  fill(white);
-  textSize(256);
-  text("lose", width/2, height/2);
+  background(toDark(hereColor));
+  noTint();
+  if (bossTime) image(bossText, width/2, imageY);
+  else image(loseText, width/2, imageY);
+  //good speed is 0.5 pixels/second
+  if (imageY > height/2) imageY -= 0.5;
+  else imageY = height/2;
   
-  //music
   loseTheme.play();
 }//-------------------------------------------------- lose --------------------------------------------------
 

@@ -1,12 +1,13 @@
 void battleSetup() {
   //Hero
   myHero.x = width/4;
-  myHero.y = height/4;
+  myHero.y = height/3.75;
   myHero.r = height/6;
   myHero.threshold = 5;
 
   //Enemy
-  battleEnemy = new Enemy(width*3/4, height/4, height/6, hereColor);
+  if (!bossTime) battleEnemy = new Enemy(width*3/4, height/3.75, height/6, hereColor);
+  else battleEnemy = new Enemy(width*3/4, height/3.6, height/4.75, hereColor);
   battleEnemy.threshold = 5;
 
   //hero animation
@@ -21,10 +22,13 @@ void battleSetup() {
 
   //music
   battleTheme.rewind();
+  bossTheme.rewind();
 
   //other
   timer = 0;
   turn = HERO;
+  myHero.progress = 0;
+  battleEnemy.progress = 0;
 }//-------------------------------------------------- battleSetup --------------------------------------------------
 
 void battle() {
@@ -58,17 +62,34 @@ void battle() {
     battleEnemy.toBattle();
   }
 
-  if (turn != ACTION && battleEnemy.currentHP == 0) {
-    clearedRooms[roomX][roomY] = true;
-    gameSetup();
-    switchRoom();
-    battleTheme.pause();
-    mode = GAME;
+  if (turn != ACTION && battleEnemy.currentHP <= 0) {
+    if (bossTime) {
+      battleTheme.close();
+      bossTheme.close();
+      mode = WIN;
+    } else {
+      clearedRooms[roomX][roomY] = true;
+      gameSetup();
+      switchRoom();
+      battleTheme.pause();
+      mode = GAME;
+    }
+  }
+
+  if (turn == HERO && myHero.currentHP <= 0) {
+    battleTheme.close();
+    bossTheme.close();
+    mode = LOSE;
   }
 
   //music
-  if (battleTheme.position() >= battleTheme.length() || !battleTheme.isPlaying()) battleTheme.rewind();
-  if (mode == BATTLE) battleTheme.play();
+  if (bossTime) {
+    if (bossTheme.position() >= bossTheme.length() || !bossTheme.isPlaying()) bossTheme.rewind();
+    if (mode == BATTLE) bossTheme.play();
+  } else {
+    if (battleTheme.position() >= battleTheme.length() || !battleTheme.isPlaying()) battleTheme.rewind();
+    if (mode == BATTLE) battleTheme.play();
+  }
 }//-------------------------------------------------- battle --------------------------------------------------
 
 void battleMousePressed() {
@@ -132,12 +153,17 @@ void battleButton(float x, float y, String txt) {
   }
 
   //button base
-  stroke(black);
+  if (bossTime) stroke(grey);
+  else stroke(black);
   rect(x, y, width*7/16, height/8, 10);
 
   //text
-  if (turn == HERO) fill(black);
-  else fill(grey);
+  if (turn == HERO) {
+    if (bossTime) fill(grey);
+    else fill(black);
+  } else {
+    fill(grey);
+  }
   textSize(height/16);
   text(txt, x, y);
 }//-------------------------------------------------- battleButton --------------------------------------------------

@@ -32,12 +32,12 @@ class Enemy extends Person {
     this.c = hereColor;
 
     //health
-    if (c == yellow) maxHP = 100;
-    else if (c == orange || c == green) maxHP = 200;
+    if (c == yellow) maxHP = 150;
+    else if (c == orange || c == green) maxHP = 300;
+    else if (c == navy) maxHP = 150;
+    else if (c == blue) maxHP = 200;
     else if (c == cyan) maxHP = 250;
-    else if (c == blue) maxHP = 300;
-    else if (c == navy) maxHP = 400;
-    else if (c == darkGrey) maxHP = 500;
+    else if (c == darkGrey) maxHP = 600;
     else maxHP = 10;
     currentHP = maxHP;
 
@@ -68,14 +68,15 @@ class Enemy extends Person {
     //battle animation
     if (mode == BATTLE) {
       if (turn == ENEMY) {
-        noTint();
+        if (bossTime) tint(black, 64);
+        else noTint();
       } else if (turn == HERO || turn == ACTION) {
         if (anticipating) tint(hereColor, 196);
         else tint(toDark(grey));
       }
       fill(black);
       textSize(64);
-      text(goodRound(powerLevels[progress], 1) + "x", x + 2*r, y);
+      text(goodRound(powerLevels[progress], 1) + "x", x + 1.5*r, y);
     }
 
     animate();
@@ -91,7 +92,7 @@ class Enemy extends Person {
     int chosenAction;
 
     if (this.c == yellow) {
-      chosenAction = 3;
+      chosenAction = 0;
     } else if (this.c == orange) {
       choices = new int[]{0, 1, 3, 3, 3};
       chosenAction = choices[floor(random(choices.length))];
@@ -101,13 +102,21 @@ class Enemy extends Person {
         choices = new int[]{0, 1};
         chosenAction = choices[floor(random(choices.length))];
       }
-    } else if (this.c == cyan || this.c == blue || this.c == navy) {
+    } else if (this.c == navy) {
+      choices = new int[]{0, 1, 1};
+      chosenAction = choices[floor(random(choices.length))];
+    } else if (this.c == blue) {
+      choices = new int[]{0, 3};
+      chosenAction = choices[floor(random(choices.length))];
+    } else if (this.c == cyan) {
+      choices = new int[]{1, 2, 2, 3};
+      chosenAction = choices[floor(random(choices.length))];
+    } else if (this.c == toDark(grey)) {
       choices = new int[]{0, 1, 2, 3};
       chosenAction = choices[floor(random(choices.length))];
-    } else chosenAction = 0;
-
-
-
+    } else {
+      chosenAction = 0;
+    }
 
     if (chosenAction == 0) actionToDo = "unruly stab";
     else if (chosenAction == 1) actionToDo = "barbaric thrust";
@@ -236,13 +245,6 @@ class Enemy extends Person {
       }
     }
   }//-------------------------------------------------- resetCounter --------------------------------------------------
-
-  void damage(int drop) { 
-    super.damage(drop);
-    if (currentHP <= 0) {
-      currentHP = 0;
-    }
-  }//-------------------------------------------------- damage --------------------------------------------------
 
   float move(float edge, int sec) {
     float startX = x;

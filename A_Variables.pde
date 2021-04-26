@@ -26,12 +26,11 @@ Enemy battleEnemy;
 //keyboard
 boolean leftKey, upKey, rightKey, downKey, spaceKey;
 
-//intro
-PImage introText;
-float imageY;
 
 //images
 PImage map, floor, wall;
+PImage introText, loseText, bossText, winText;
+float imageY;
 
 //game
 boolean[][] clearedRooms;
@@ -45,13 +44,14 @@ float wallRatio = 1.0/8.0;
 final int HERO = 0;
 final int ACTION = 1;
 final int ENEMY = 2;
-final int BATTLE_PACE = 120;
+final int BATTLE_PACE = 90;
 int turn = HERO;
 int timer = 0;
 boolean reverseOrder = false;
 
 //other
 boolean transition = false;
+boolean bossTime = false;
 
 //sound
 Minim minim;
@@ -59,6 +59,7 @@ AudioPlayer introTheme;
 AudioPlayer gameTheme;
 AudioPlayer menuTheme;
 AudioPlayer battleTheme;
+AudioPlayer bossTheme;
 AudioPlayer loseTheme;
 AudioPlayer winTheme;
 

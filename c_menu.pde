@@ -1,10 +1,9 @@
 void menu() {
   //general
-  background(toLight(pink));
+  background(toDark(pink));
   
   Hero menuHero = new Hero(myHero);
-  menuHero.show();
-  
+  menuHero.show();  
 }//-------------------------------------------------- menu --------------------------------------------------
 
 void menuMousePressed() {

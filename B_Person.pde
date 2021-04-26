@@ -68,10 +68,9 @@ class Person {
   }//-------------------------------------------------- ~copy constructor~ --------------------------------------------------
 
   void show() {
-
     if (mode == GAME || mode == MENU) {
       noTint();
-      //if (this instanceof Enemy) tint(hereColor, 196);
+      if (this instanceof Enemy && bossTime) tint(grey, 128);
     }
 
     //actual image showing
@@ -128,6 +127,9 @@ class Person {
 
   void damage(int drop) { 
     currentHP -= drop;
+    if (currentHP <= 0) {
+      currentHP = 0;
+    }
   }//-------------------------------------------------- healthBar --------------------------------------------------
 
   void bulkImageImport(String name, String action, int total, boolean directional) {
