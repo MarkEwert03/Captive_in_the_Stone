@@ -81,8 +81,8 @@ void drawRoom() {
   background(white);
   tint(hereColor);
   imageMode(CENTER);
-  for (int w = 140; w < width; w += 280) {
-    for (int h = 140; h < height; h += 280) {
+  for (int w = 140; w < width*1.25; w += 280) {
+    for (int h = 140; h < height*1.25; h += 280) {
       image(floor, w, h);
     }
   }
@@ -92,8 +92,8 @@ void drawRoom() {
     for (int h = 0; h < height; h += wall.height/2) {
       if (w == 0 && wWall) image(wall, w, h);
       else if (h == 0 && nWall) image(wall, w, h);
-      else if (w >= width - (height * wallRatio) && eWall) image(wall, w - wall.width/6, h);
-      else if (h >= height * (1 - wallRatio) && sWall) image(wall, w, h - wall.height/2.5);
+      else if (w >= width - (height * wallRatio) && eWall) image(wall, width - wall.width, h);
+      else if (h >= height * (1 - wallRatio) && sWall) image(wall, w, height - wall.height);
     }
   }
 

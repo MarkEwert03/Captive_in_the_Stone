@@ -181,7 +181,7 @@ class Person {
   }//-------------------------------------------------- bulkImageImport --------------------------------------------------
 
   void textFade() {
-    textSize(64);
+    textSize(height/20);
     fill(black, alpha);
     text(battleText, x, y*1.75);
     if (alpha <= 0) {

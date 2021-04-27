@@ -64,7 +64,7 @@ class Hero extends Person {
         else tint(toDark(grey));
       }
       fill(black);
-      textSize(64);
+      textSize(height/15);
       text(goodRound(powerLevels[progress], 1) + "x", x - 1.5*r, y);
     }
 
