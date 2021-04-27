@@ -10,10 +10,9 @@ void intro() {
 }//-------------------------------------------------- intro --------------------------------------------------
 
 void introMousePressed() {
-  if (imageY == height/2) {
     gameSetup();
     mode = GAME;
     introTheme.close();
     imageY = height*1.5;
-  }
+  
 }//-------------------------------------------------- introMousePressed --------------------------------------------------

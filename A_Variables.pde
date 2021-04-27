@@ -17,7 +17,7 @@ int mode = INTRO;
 
 //Hero
 Hero myHero;
-String heroChoice = "";
+String heroChoice;
 
 //Enemy
 ArrayList<Enemy> enemyList;
@@ -47,11 +47,12 @@ final int ENEMY = 2;
 final int BATTLE_PACE = 90;
 int turn = HERO;
 int timer = 0;
-boolean reverseOrder = false;
+boolean reverseOrder;
 
 //other
-boolean transition = false;
-boolean bossTime = false;
+boolean transition;
+boolean bossTime;
+boolean checkPoint;
 
 //sound
 Minim minim;

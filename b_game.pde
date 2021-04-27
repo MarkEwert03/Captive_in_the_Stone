@@ -18,6 +18,9 @@ void game() {
   //boss check
   if (roomX == 5 && roomY == 2) bossTime = true;
   
+  //checkpoint check
+  if (hereColor == violet) checkPoint = true;
+  
   //room
   drawRoom();
 
@@ -61,7 +64,7 @@ void switchRoom() {
     if (southColor != white) south = true;
   } else {
     //bug checking
-    println("In a nonexistent room so hereColor is" + hereColor);
+    println("In a nonexistent room so hereColor is " + hereColor);
     println("roomX = " + roomX + " and roomY = " + roomY);
   }
 

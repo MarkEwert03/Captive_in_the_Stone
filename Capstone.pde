@@ -43,7 +43,7 @@ void setup() {
   bossText.resize(width, height);
   winText   = loadImage("Images/Win Text.png");
   winText.resize(width, height);
-  
+
   //other images
   map       = loadImage("Images/Map.png");
   floor     = loadImage("Images/Stone.png");
@@ -58,6 +58,12 @@ void setup() {
       if (roomC == pink || roomC == violet) clearedRooms[x][y] = true;
     }
   }
+
+  //other variables
+  heroChoice = "";
+  reverseOrder = false;
+  transition = false;
+  bossTime = false;
 
   //default values are (3, 1) - before boss values are (5, 3)
   roomX = 3;
