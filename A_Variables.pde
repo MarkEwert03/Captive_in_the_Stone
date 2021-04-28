@@ -28,7 +28,7 @@ boolean leftKey, upKey, rightKey, downKey, spaceKey;
 
 
 //images
-PImage map, floor, wall;
+PImage map, bigMap, floor, wall;
 PImage introText, loseText, bossText, winText;
 float imageY;
 

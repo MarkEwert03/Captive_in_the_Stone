@@ -45,9 +45,11 @@ void setup() {
   winText.resize(width, height);
 
   //other images
-  map       = loadImage("Images/Map.png");
-  floor     = loadImage("Images/Stone.png");
-  wall      = loadImage("Images/Brick.png");
+  map    = loadImage("Images/Map.png");
+  bigMap = loadImage("Images/Big Map.png");
+  bigMap.resize(height/2, height/2);
+  floor  = loadImage("Images/Stone.png");
+  wall   = loadImage("Images/Brick.png");
   wall.resize(int(height*wallRatio), int(height*wallRatio));
 
   //map

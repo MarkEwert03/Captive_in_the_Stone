@@ -32,7 +32,7 @@ class Hero extends Person {
   Hero(Hero copyHero) {
     //super
     super(copyHero);
-    x = width/2;
+    x = width/4;
     y = height/2;
     r = height/4;
 
