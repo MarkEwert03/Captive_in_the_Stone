@@ -26,14 +26,67 @@ void battleSetup() {
 
   //other
   timer = 0;
+  endTimer = 0;
   turn = HERO;
   myHero.progress = 0;
   battleEnemy.progress = 0;
+  battleEnd = false;
 }//-------------------------------------------------- battleSetup --------------------------------------------------
 
 void battle() {
+  //UI
   battleUI();
 
+  //Hero
+  myHero.show();
+
+  //codes the battle
+  if (!battleEnd) {
+    battleSequence();
+  } else {
+    if (endTimer == 0) battleTheme.pause();
+    if (endTimer < BATTLE_PACE) {
+      rectMode(CORNER);
+      if (myHero.currentHP > 0) {
+        fill(toLight(hereColor));
+        rect(0, 0, width, height);
+        fill(black);
+        textSize(width/6);
+        text("You win!", width/2, height/2);
+      } else {
+        fill(toDark(hereColor));
+        rect(0, 0, width, height);
+        myHero.show();
+      }
+      endTimer++;
+    } else {
+      if (myHero.currentHP > 0) {
+        clearedRooms[roomX][roomY] = true;
+        gameSetup();
+        switchRoom();
+        battleEnd = false;
+        mode = GAME;
+      } else {
+        battleTheme.close();
+        bossTheme.close();
+        mode = LOSE;
+      }
+    }
+  }
+}//-------------------------------------------------- battle --------------------------------------------------
+
+void battleMousePressed() {
+  if (turn == HERO && !heroChoice.isEmpty()) {
+    timer = -BATTLE_PACE/2;
+    if (battleEnemy.actionToDo.equals("anticipate") && !heroChoice.equals("counter")) {
+      reverseOrder = true;
+      turn = ENEMY;
+    } else turn = ACTION;
+    myHero.actionToDo = heroChoice;
+  }
+}//-------------------------------------------------- battleMousePressed --------------------------------------------------
+
+void battleSequence() {
   if (turn == HERO) {
     //other
     reverseOrder = false;
@@ -48,7 +101,6 @@ void battle() {
   }
 
   //Hero
-  myHero.show();
   if (!myHero.battleText.isEmpty()) myHero.textFade();
   if (turn == ACTION) {
     myHero.toBattle();
@@ -68,18 +120,14 @@ void battle() {
       bossTheme.close();
       mode = WIN;
     } else {
-      clearedRooms[roomX][roomY] = true;
-      gameSetup();
-      switchRoom();
-      battleTheme.pause();
-      mode = GAME;
+      battleEnd = true;
     }
   }
 
   if (turn == HERO && myHero.currentHP <= 0) {
-    battleTheme.close();
-    bossTheme.close();
-    mode = LOSE;
+    myHero.currentAction = myHero.dead;
+    myHero.threshold = BATTLE_PACE/3;
+    battleEnd = true;
   }
 
   //music
@@ -89,17 +137,6 @@ void battle() {
   } else {
     if (battleTheme.position() >= battleTheme.length() || !battleTheme.isPlaying()) battleTheme.rewind();
     if (mode == BATTLE) battleTheme.play();
-  }
-}//-------------------------------------------------- battle --------------------------------------------------
-
-void battleMousePressed() {
-  if (turn == HERO && !heroChoice.isEmpty()) {
-    timer = -BATTLE_PACE/2;
-    if (battleEnemy.actionToDo.equals("anticipate") && !heroChoice.equals("counter")) {
-      reverseOrder = true;
-      turn = ENEMY;
-    } else turn = ACTION;
-    myHero.actionToDo = heroChoice;
   }
 }//-------------------------------------------------- battleMousePressed --------------------------------------------------
 

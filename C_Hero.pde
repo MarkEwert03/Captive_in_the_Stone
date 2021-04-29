@@ -74,7 +74,28 @@ class Hero extends Person {
   }//-------------------------------------------------- show --------------------------------------------------
 
   void act() {
-    if (hereColor == pink) currentHP = maxHP;
+    if (hereColor == pink && roomY != 1) {
+      if (currentHP < maxHP) {
+        healthBar(c);
+        currentHP++;
+      } else {
+        //inner background
+        rectMode(CORNER);
+        noStroke();
+        fill(toLight(c));
+        rect(x - r*0.8, y - r*1.25, 1.6*r, r/2, 10);
+
+        //outer shell
+        rectMode(CENTER);
+        noFill();
+        rect(x, y - r, 1.6*r, r/2, 10);
+
+        //text 
+        fill(black);
+        textSize(r/6);
+        text("health regained!", x, y - r);
+      }
+    }
 
     //movement
     if (leftKey || upKey || rightKey || downKey) idle.clear();
@@ -283,5 +304,4 @@ class Hero extends Person {
       }
     }
   }//-------------------------------------------------- resetCounter --------------------------------------------------
-
 }//-------------------------------------------------- Hero --------------------------------------------------

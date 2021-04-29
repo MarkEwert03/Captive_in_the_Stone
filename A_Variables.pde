@@ -47,8 +47,8 @@ final int ACTION = 1;
 final int ENEMY = 2;
 final int BATTLE_PACE = 90;
 int turn = HERO;
-int timer = 0;
-boolean reverseOrder;
+int timer = 0, endTimer = 0;
+boolean reverseOrder, battleEnd;
 
 //battle transition
 Person trans;

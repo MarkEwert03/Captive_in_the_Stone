@@ -2,7 +2,7 @@ class Person {
   //basic
   float x, y;
   float r = height/12;
-  int maxHP = 500;
+  int maxHP = 50;
   int currentHP = maxHP;
   color c = grey;
 
@@ -96,7 +96,7 @@ class Person {
     }
   }//-------------------------------------------------- animate --------------------------------------------------
 
-  private void healthBar(color c) {
+  void healthBar(color c) {
     float HP_X = map(currentHP, 0, maxHP, 0, 1.6*r);
 
     //inner health
