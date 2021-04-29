@@ -7,12 +7,13 @@ import ddf.minim.spi.*;
 import ddf.minim.ugens.*;
 
 //mode framework
-final int INTRO  = 0;
-final int GAME   = 1;
-final int MENU   = 2;
-final int BATTLE = 3;
-final int LOSE   = 4;
-final int WIN    = 5;
+final int TITLE  = 0;
+final int INTRO  = 1;
+final int GAME   = 2;
+final int MENU   = 3;
+final int BATTLE = 4;
+final int LOSE   = 5;
+final int WIN    = 6;
 int mode = INTRO;
 
 //Hero

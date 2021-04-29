@@ -83,7 +83,8 @@ void setup() {
 
 void draw() {
   //Mode FrameWork
-  if      (mode == INTRO)  intro();
+  if      (mode == TITLE)  title();
+  else if (mode == INTRO)  intro();
   else if (mode == GAME)   game();
   else if (mode == MENU)   menu();
   else if (mode == BATTLE) battle();
@@ -106,7 +107,8 @@ void draw() {
 }//-------------------------------------------------- draw --------------------------------------------------
 
 void mousePressed() {
-  if      (mode == INTRO)  introMousePressed();
+  if      (mode == TITLE)  titleMousePressed();
+  else if (mode == INTRO)  introMousePressed();
   else if (mode == GAME)   gameMousePressed();
   else if (mode == MENU)   menuMousePressed();
   else if (mode == BATTLE) battleMousePressed();
