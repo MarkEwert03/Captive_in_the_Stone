@@ -51,8 +51,8 @@ void battle() {
         fill(toLight(hereColor));
         rect(0, 0, width, height);
         fill(black);
-        textSize(width/6);
-        text("You win!", width/2, height/2);
+        textSize(width/8);
+        text("You defeated\nthe wastling!", width/2, height/2);
       } else {
         fill(toDark(hereColor));
         rect(0, 0, width, height);
