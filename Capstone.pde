@@ -57,10 +57,12 @@ void setup() {
   //other images
   map    = loadImage("Images/Map.png");
   bigMap = loadImage("Images/Big Map.png");
-  bigMap.resize(height/2, height/2);
+  bigMap.resize(height/3, height/3);
   floor  = loadImage("Images/Stone.png");
   wall   = loadImage("Images/Brick.png");
   wall.resize(int(height*wallRatio), int(height*wallRatio));
+  menuIcons = loadImage("Images/Menu Icons.png");
+  menuIcons.resize(width, height);
 
   //map
   clearedRooms = new boolean[map.width][map.height];

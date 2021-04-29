@@ -28,7 +28,7 @@ Enemy battleEnemy;
 boolean leftKey, upKey, rightKey, downKey, spaceKey;
 
 //images
-PImage map, bigMap, floor, wall;
+PImage map, bigMap, floor, wall, menuIcons;
 PImage titleText, introText, loseText, bossText, winText;
 float imageY;
 ArrayList<PImage> slides;
