@@ -12,33 +12,36 @@ void gameSetup() {
 
   //music
   gameTheme.rewind();
+
+  //other
+  transition = false;
+  tTimer = 0;
 }
 
 void game() {
   //boss check
   if (roomX == 5 && roomY == 2) bossTime = true;
-  
+
   //checkpoint check
   if (hereColor == violet) checkPoint = true;
-  
+
   //room
   drawRoom();
 
   //Hero
   myHero.show();
-  myHero.act();
+  if (!transition) myHero.act();
 
   //music
   if (gameTheme.position() == gameTheme.length()) gameTheme.rewind();
-  gameTheme.play();
+  if (!transition) gameTheme.play();
 
   //Enemy
   for (Enemy e : enemyList) {
     e.show();
-    if (dist(myHero.x, myHero.y, e.x, e.y) < myHero.r + e.r) {
-      gameTheme.pause();
-      battleSetup();
-      mode = BATTLE;
+    if (dist(myHero.x, myHero.y, e.x, e.y) < myHero.r + e.r && !transition) {
+      transition = true;
+      myHero.currentAction = myHero.idle;
     }
   }
 }//-------------------------------------------------- game --------------------------------------------------

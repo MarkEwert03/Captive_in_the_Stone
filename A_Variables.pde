@@ -26,11 +26,11 @@ Enemy battleEnemy;
 //keyboard
 boolean leftKey, upKey, rightKey, downKey, spaceKey;
 
-
 //images
 PImage map, bigMap, floor, wall;
 PImage introText, loseText, bossText, winText;
 float imageY;
+ArrayList<PImage> slides;
 
 //game
 boolean[][] clearedRooms;
@@ -49,8 +49,13 @@ int turn = HERO;
 int timer = 0;
 boolean reverseOrder;
 
-//other
+//battle transition
+Person trans;
 boolean transition;
+int tSpeed = 3;
+int tTimer = 0;
+
+//other
 boolean bossTime;
 boolean checkPoint;
 

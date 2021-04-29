@@ -3,7 +3,7 @@ void intro() {
   background(toLight(red));
   image(introText, width/2, imageY);
   //good speed is 0.5 pixels/second
-  if (imageY > height/2) imageY -= 20;
+  if (imageY > height/2) imageY -= 0.5;
   else imageY = height/2;
   
   introTheme.play();
@@ -14,5 +14,4 @@ void introMousePressed() {
     mode = GAME;
     introTheme.close();
     imageY = height*1.5;
-  
 }//-------------------------------------------------- introMousePressed --------------------------------------------------

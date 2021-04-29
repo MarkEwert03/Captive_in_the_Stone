@@ -20,6 +20,14 @@ void setup() {
   //Enemy
   enemyList = new ArrayList<Enemy>();
 
+  //battle transition
+  slides = new ArrayList<PImage>();
+  slides.clear();
+  trans = new Person();
+  trans.bulkImageImport("", "Slide", 51, false);
+  trans.currentAction = slides;
+  trans.threshold = tSpeed;
+
   //sound
   minim       = new Minim(this);
   introTheme  = minim.loadFile("Music/Intro Theme.wav");
@@ -81,6 +89,20 @@ void draw() {
   else if (mode == BATTLE) battle();
   else if (mode == LOSE)   lose();
   else if (mode == WIN)    win();
+  else println("error: invalid mode");
+
+  //cross mode transition
+  if (transition) {
+    trans.animate();
+    image(trans.currentAction.get(trans.spriteNumber), width/2, height/2);
+    if (tTimer == tSpeed*(slides.size()-11)) {
+      gameTheme.pause();
+      battleSetup();
+      mode = BATTLE;
+    }
+    if (tTimer > tSpeed * slides.size()) transition = false;
+    else tTimer++;
+  }
 }//-------------------------------------------------- draw --------------------------------------------------
 
 void mousePressed() {
@@ -134,4 +156,4 @@ color toDark(color c) {
 double goodRound (double value, int precision) {
   int scale = (int) Math.pow(10, precision);
   return (double) Math.round(value * scale) / scale;
-}
+}//-------------------------------------------------- goodRound --------------------------------------------------

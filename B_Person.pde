@@ -155,26 +155,35 @@ class Person {
       tempDown  = chargeDown;
     }
 
+    if (directional) {
+      String direction = "";
+      for (int dir = 0; dir < 4; dir++) {
+        //outer directional loop
+        if (dir == 0) direction = "Left ";
+        else if (dir == 1) direction = "Up ";
+        else if (dir == 2) direction = "Right ";
+        else if (dir == 3) direction = "Down ";
 
-    String direction = "";
-    for (int dir = 0; dir < 4; dir++) {
-      //outer directional loop
-      if (dir == 0) direction = "Left ";
-      else if (dir == 1) direction = "Up ";
-      else if (dir == 2) direction = "Right ";
-      else if (dir == 3) direction = "Down ";
-
-      //inner numerical loop
-      for (int num = 1; num <= total; num++) {
-        if (directional) {
+        //inner numerical loop
+        for (int num = 1; num <= total; num++) {
           PImage image = loadImage("Animation/" + name + "/" + direction + action + " (" + num + ").png");
           if (dir == 0) tempLeft.add(image);
           else if (dir == 1) tempUp.add(image);
           else if (dir == 2) tempRight.add(image);
           else if (dir == 3) tempDown.add(image);
-        } else {
+        }
+      }
+    } else {
+      for (int num = 1; num <= total; num++) {
+        if (action.equals("Dead")) {
           PImage image = loadImage("Animation/" + name + "/" + action + " (" + num + ").png");
           dead.add(image);
+        } else if (action.equals("Slide")) {
+          PImage slide = loadImage("Transition/Slide (" + num + ").png");
+          slide.resize(width, height);
+          slides.add(slide);
+        } else {
+          println("Error: action was " + action);
         }
       }
     }
