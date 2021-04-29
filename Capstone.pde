@@ -43,6 +43,8 @@ void setup() {
   //text images
   imageMode(CENTER);
   imageY = height*1.5;
+  titleText = loadImage("Images/Title Text.png");
+  titleText.resize(width, height);
   introText = loadImage("Images/Intro Text.png");
   introText.resize(width, height);
   loseText  = loadImage("Images/Lose Text.png");

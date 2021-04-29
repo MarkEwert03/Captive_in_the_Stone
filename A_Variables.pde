@@ -14,7 +14,7 @@ final int MENU   = 3;
 final int BATTLE = 4;
 final int LOSE   = 5;
 final int WIN    = 6;
-int mode = INTRO;
+int mode = TITLE;
 
 //Hero
 Hero myHero;
@@ -29,7 +29,7 @@ boolean leftKey, upKey, rightKey, downKey, spaceKey;
 
 //images
 PImage map, bigMap, floor, wall;
-PImage introText, loseText, bossText, winText;
+PImage titleText, introText, loseText, bossText, winText;
 float imageY;
 ArrayList<PImage> slides;
 
