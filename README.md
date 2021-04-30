@@ -1,7 +1,12 @@
 # Captive in the Stone
 Repository for RPG project
 
+## Description
+  * _Captive in the Stone_ is the RPG game that I created for my Capstone project in Grade 12.
+
 ## Sources:
+  * Processing - https://processing.org/
+    * Processing is IDE I used for the entirity of this project
   * The Spriters Resource - https://www.spriters-resource.com/nes/legendofzelda/sheet/8366/
     * I got the spite sheet for NES Link, which I orginally used when testing my animations.
   * Character Generator - http://gaurav.munjal.us/Universal-LPC-Spritesheet-Character-Generator/
